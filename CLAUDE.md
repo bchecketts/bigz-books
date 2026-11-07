@@ -78,6 +78,11 @@ the web root, so nothing uploaded is ever served or run) under a cleaned name, n
 with a POST from any site). Each upload is logged in `../applogs/app.log` with the login name. Files are owned by
 www-data, mode 644, so ubuntu can read them. After adding a class, run `composer dump-autoload`.
 
+## Cash flow forecast (planned)
+
+The user wants a daily cash flow forecast on bigz.roundsphere.com like the RoundSphere one. Design notes, and what
+changes for rentals, are in `docs/cash-forecast.md`.
+
 ## Shared library
 
 `roundsphere/bookkeeping` (`~/books/bookkeeping/bookkeeping`), pinned to an exact version in
