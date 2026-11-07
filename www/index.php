@@ -28,7 +28,7 @@ function sizeText($bytes)
   body { font-family: system-ui, sans-serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; color: var(--text); background: var(--bg); }
   h1 { font-size: 1.5rem; }
   h2 { font-size: 1.1rem; margin-top: 2rem; }
-  #drop { border: 2px dashed var(--line); border-radius: 8px; padding: 2.5rem 1rem; text-align: center; background: var(--drop); cursor: pointer; }
+  #drop { display: block; border: 2px dashed var(--line); border-radius: 8px; padding: 2.5rem 1rem; text-align: center; background: var(--drop); cursor: pointer; }
   #drop.over { border-color: var(--accent); }
   #drop p { margin: .3rem 0; }
   .muted { color: var(--muted); font-size: .9rem; }
