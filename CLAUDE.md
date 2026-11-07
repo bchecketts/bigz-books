@@ -24,7 +24,7 @@ as a possible QuickBooks replacement.
 ~/bigz/
 ├── conf/project.properties   # secrets: Intuit keys, token encryption key (not in git)
 ├── var/qbo-token             # QuickBooks connection (encrypted)
-├── conf/htpasswd            # logins for bigz.roundsphere.com (not in git)
+├── conf/htpasswd             # logins for bigz.roundsphere.com (not in git)
 ├── applogs/                  # script logs, qbo-errors.log
 ├── logs/                     # Apache logs for bigz.roundsphere.com
 └── bigz/                     # this repo
