@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Bookkeeping pre-commit hook.
+#
+# Runs `make test` (PHPStan + PHPCS + PHPUnit) when the staged change
+# touches PHP. Skips entirely for non-PHP-only commits (docs, CSS,
+# SQL, etc.) so they don't pay the analyzer cost.
+#
+# Install once per clone: `make install-hooks`
+# Bypass in a true emergency: `git commit --no-verify` (avoid the habit).
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+# List staged files (added/copied/modified/renamed), null-delimited so
+# spaces/newlines in paths are safe.
+mapfile -d '' -t STAGED < <(git diff --cached --name-only --diff-filter=ACMR -z)
+
+PHP_TOUCHED=0
+for f in "${STAGED[@]:-}"; do
+    case "$f" in
+        *.php) PHP_TOUCHED=1; break ;;
+    esac
+done
+
+if [ "$PHP_TOUCHED" -eq 1 ]; then
+    echo "pre-commit: PHP files staged, running make test..."
+    if ! make -s test; then
+        echo
+        echo "pre-commit: tests failed. Fix them or run with --no-verify if you understand the risk."
+        exit 1
+    fi
+fi
+
+# Soft reminder — when the commit looks structurally significant (new
+# endpoint, new class, new cron, schema migration, route change) and
+# CLAUDE.md isn't being updated in the same commit, nudge the author
+# to consider it. Never blocks: prints + exits 0. Skip the nudge if
+# CLAUDE.md is already staged — they're on it.
+if ! printf '%s\n' "${STAGED[@]:-}" | grep -qFx 'CLAUDE.md'; then
+    signals=()
+    while IFS=$'\t' read -r status path; do
+        [ -z "$path" ] && continue
+        case "$status:$path" in
+            A:maint/*.php)          signals+=("new maint script: $path") ;;
+            A:app/classes/*.php)   signals+=("new class: $path") ;;
+            A:bin/cronjobs/*.php)  signals+=("new cron job: $path") ;;
+        esac
+    done < <(git diff --cached --name-status --diff-filter=ACMR)
+
+    if [ ${#signals[@]} -gt 0 ]; then
+        echo
+        echo "pre-commit: heads-up — this commit looks structural. Worth checking CLAUDE.md?"
+        for s in "${signals[@]}"; do
+            echo "    - $s"
+        done
+        echo "    (just a reminder, not blocking - skip if nothing's worth documenting)"
+        echo
+    fi
+fi
+
+exit 0

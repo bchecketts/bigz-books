@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<ruleset name="Books">
+    <description>RoundSphere bookkeeping coding standard</description>
+    
+    <!-- Note: paths in Makefile specify app/ bin/ maint/ so we don't need file paths here -->
+    
+    <!-- Exclude vendor -->
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <!-- One-off scripts are a record of what was run, not maintained code -->
+    <exclude-pattern>maint/oneoff/*</exclude-pattern>
+
+    
+    <!-- Use PSR-12 as base but with customizations for RoundBase -->
+    <rule ref="PSR12">
+        <!-- Allow lowercase class names (RoundBase convention) -->
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps"/>
+        <exclude name="PSR1.Classes.ClassDeclaration.MultipleClasses"/>
+        
+        <!-- Allow classes without namespaces (RoundBase convention) -->
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+        
+        <!-- Allow underscore-prefixed properties (RoundBase convention) -->
+        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore"/>
+        
+        <!-- Allow mixed side effects and declarations (RoundBase common.php pattern) -->
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+        
+        <!-- Allow inline control structures for brevity -->
+        <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed"/>
+        
+        <!-- Allow string concat without spaces (common in PHP) -->
+        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceBefore"/>
+        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceAfter"/>
+    </rule>
+
+    <!-- Completely disable class naming check - RoundBase uses lowercase -->
+    <rule ref="Squiz.Classes.ValidClassName">
+        <severity>0</severity>
+    </rule>
+    
+    <!-- Disable line length entirely - too many content pages have long lines -->
+    <rule ref="Generic.Files.LineLength">
+        <severity>0</severity>
+    </rule>
+</ruleset>

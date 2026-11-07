@@ -1,0 +1,37 @@
+{
+    "name": "bigz/books",
+    "description": "Bookkeeping scripts for Big Z Properties",
+    "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:roundsphere/roundbase.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "/home/ubuntu/books/bookkeeping/bookkeeping"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "roundsphere/bookkeeping": "0.16.1",
+        "roundsphere/roundbase": "dev-master"
+    },
+    "autoload": {
+        "classmap": [
+            "app/classes/"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": {
+            "roundsphere/*": "source",
+            "*": "dist"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.0",
+        "squizlabs/php_codesniffer": "^4.0"
+    }
+}
