@@ -24,7 +24,9 @@ as a possible QuickBooks replacement.
 ~/bigz/
 ├── conf/project.properties   # secrets: Intuit keys, token encryption key (not in git)
 ├── var/qbo-token             # QuickBooks connection (encrypted)
-├── applogs/                  # logs, qbo-errors.log
+├── conf/htpasswd            # logins for bigz.roundsphere.com (not in git)
+├── applogs/                  # script logs, qbo-errors.log
+├── logs/                     # Apache logs for bigz.roundsphere.com
 └── bigz/                     # this repo
     ├── app/                  # common.php, project.properties, classes/
     ├── bin/cronjobs/         # scheduled jobs (none yet)
@@ -55,10 +57,18 @@ contain `=`.
 - `php maint/qbo_connect.php` prints a link that finishes at bk.roundsphere.com. That callback
   finds companies under `~/books/<company>/`, and Big Z through `company_dir.bigz = /home/ubuntu/bigz`
   in `~/books/bookkeeping/bookkeeping/app/project.properties`. Apache (ProtectHome=read-only) may
-  write only `~/bigz/var` and `~/bigz/applogs`, listed in that repo's `deploy/etc/apache2-systemd-override.conf`.
+  write only the folders in `deploy/etc/apache2-systemd-override.conf` (here).
 - Failed Intuit requests are logged (with `intuit_tid`, never data) to `../applogs/qbo-errors.log`.
 - Intuit's security requirements: `~/books/bookkeeping/bookkeeping/docs/`.
 - `app::qbo(true)` is an Intuit sandbox company (connect with `--sandbox`); test writes there first.
+
+## Website: bigz.roundsphere.com
+
+DocumentRoot `www/`, vhost `deploy/etc/httpd.conf` (symlinked as sites-available/bigz.conf). Behind the shared
+AWS ALB, which terminates TLS with the *.roundsphere.com certificate. Every page needs a login (Apache Basic auth,
+`../conf/htpasswd`, separate from the RoundSphere logins): pages here show Big Z data. Add a user with
+`htpasswd -B ~/bigz/conf/htpasswd <name>`. Only GET/HEAD are allowed. `deploy/etc/apache2-systemd-override.conf`
+(symlinked as apache2.service.d/bigz.conf) lets Apache write `../logs`, `../var` and `../applogs`.
 
 ## Shared library
 
