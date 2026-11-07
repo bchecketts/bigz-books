@@ -4,6 +4,7 @@ parameters:
         - ../app
         - ../bin
         - ../maint
+        - ../www
     # One-off scripts are a record of what was run, not maintained code
     excludePaths:
         - ../maint/oneoff

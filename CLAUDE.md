@@ -27,6 +27,7 @@ as a possible QuickBooks replacement.
 ├── conf/htpasswd             # logins for bigz.roundsphere.com (not in git)
 ├── applogs/                  # script logs, qbo-errors.log
 ├── logs/                     # Apache logs for bigz.roundsphere.com
+├── uploads/                  # files uploaded through bigz.roundsphere.com (not in git)
 └── bigz/                     # this repo
     ├── app/                  # common.php, project.properties, classes/
     ├── bin/cronjobs/         # scheduled jobs (none yet)
@@ -67,8 +68,15 @@ contain `=`.
 DocumentRoot `www/`, vhost `deploy/etc/httpd.conf` (symlinked as sites-available/bigz.conf). Behind the shared
 AWS ALB, which terminates TLS with the *.roundsphere.com certificate. Every page needs a login (Apache Basic auth,
 `../conf/htpasswd`, separate from the RoundSphere logins): pages here show Big Z data. Add a user with
-`htpasswd -B ~/bigz/conf/htpasswd <name>`. Only GET/HEAD are allowed. `deploy/etc/apache2-systemd-override.conf`
-(symlinked as apache2.service.d/bigz.conf) lets Apache write `../logs`, `../var` and `../applogs`.
+`htpasswd -B ~/bigz/conf/htpasswd <name>`. Only GET/HEAD are allowed, plus POST to `upload.php`. `deploy/etc/apache2-systemd-override.conf`
+(symlinked as apache2.service.d/bigz.conf) lets Apache write `../logs`, `../uploads`, `../var` and `../applogs`.
+
+Uploader (`www/index.php`, `upload.js`, `upload.php`, `app/classes/uploads.class.php`): drop one or more files on
+the home page; each goes up in its own request (up to 100 MB, set in the vhost) and is saved to `../uploads` (outside
+the web root, so nothing uploaded is ever served or run) under a cleaned name, never overwriting (`name (2).pdf`).
+`upload.php` only accepts requests whose Origin is bigz.roundsphere.com (the browser would send the Basic auth login
+with a POST from any site). Each upload is logged in `../applogs/app.log` with the login name. Files are owned by
+www-data, mode 644, so ubuntu can read them. After adding a class, run `composer dump-autoload`.
 
 ## Shared library
 
