@@ -54,7 +54,8 @@ contain `=`.
   Refreshes itself on use; expires after ~100 days unused.
 - `php maint/qbo_connect.php` prints a link that finishes at bk.roundsphere.com. That callback
   finds companies under `~/books/<company>/`, and Big Z through `company_dir.bigz = /home/ubuntu/bigz`
-  in `~/books/bookkeeping/bookkeeping/app/project.properties`.
+  in `~/books/bookkeeping/bookkeeping/app/project.properties`. Apache (ProtectHome=read-only) may
+  write only `~/bigz/var` and `~/bigz/applogs`, listed in that repo's `deploy/etc/apache2-systemd-override.conf`.
 - Failed Intuit requests are logged (with `intuit_tid`, never data) to `../applogs/qbo-errors.log`.
 - Intuit's security requirements: `~/books/bookkeeping/bookkeeping/docs/`.
 - `app::qbo(true)` is an Intuit sandbox company (connect with `--sandbox`); test writes there first.
