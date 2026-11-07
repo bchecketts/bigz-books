@@ -31,7 +31,10 @@ as a possible QuickBooks replacement.
 └── bigz/                     # this repo
     ├── app/                  # common.php, project.properties, classes/
     ├── bin/cronjobs/         # scheduled jobs (none yet)
-    └── maint/                # qbo_connect.php, qbo_test.php, oneoff/
+    ├── maint/                # qbo_connect.php, qbo_test.php, oneoff/
+    ├── docs/                 # cash-forecast.md (design notes)
+    ├── www/                  # bigz.roundsphere.com (uploader)
+    └── deploy/etc/           # Apache vhost, Apache systemd override
 ```
 
 ## Common Commands
