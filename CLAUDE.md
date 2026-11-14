@@ -30,11 +30,12 @@ as a possible QuickBooks replacement.
 ├── uploads/                  # files uploaded through bigz.roundsphere.com (not in git)
 └── bigz/                     # this repo
     ├── app/                  # common.php, project.properties, classes/
+    ├── bin/cash-forecast/    # build.php: the cash flow forecast
     ├── bin/cronjobs/         # scheduled jobs (none yet)
     ├── maint/                # qbo_connect.php, qbo_test.php, oneoff/
-    ├── docs/                 # cash-forecast.md (design notes)
+    ├── docs/                 # cash-forecast.md
     ├── www/                  # bigz.roundsphere.com (uploader)
-    └── deploy/etc/           # Apache vhost, Apache systemd override
+    └── deploy/etc/           # Apache vhost, Apache systemd override, cron
 ```
 
 ## Common Commands
@@ -81,10 +82,26 @@ the web root, so nothing uploaded is ever served or run) under a cleaned name, n
 with a POST from any site). Each upload is logged in `../applogs/app.log` with the login name. Files are owned by
 www-data, mode 644, so ubuntu can read them. After adding a class, run `composer dump-autoload`.
 
-## Cash flow forecast (planned)
+## Cash flow forecast
 
-The user wants a daily cash flow forecast on bigz.roundsphere.com like the RoundSphere one. Design notes, and what
-changes for rentals, are in `docs/cash-forecast.md`.
+bigz.roundsphere.com/finance/cash-flow-forecast/: daily cash through the end of the month `months_ahead` (6) after this
+one. `php bin/cash-forecast/build.php` (cron, `deploy/etc/cronjobs.worker`) reads QuickBooks (read-only) and writes the
+page; the assumptions (recurring rent remittances, mortgages, HOA dues, taxes, one-time items, and bank balances to use
+where QuickBooks is behind) are in `app/cash-forecast.json`. When the user reports a change, edit the JSON and rebuild
+(`--cached` reuses the last QuickBooks numbers). Details in `docs/cash-forecast.md`.
+
+## Monthly: Rent Oconee Clarke statement
+
+Rent Oconee Clarke (property manager for most properties) sends an owner statement each month for the period from the
+15th to the 14th; the user uploads it through the site. Read the PDF from `../uploads`, transcribe it into
+`statements/rent-oconee-clarke/YYYY-MM.json` (the month the period ends; same shape as the earlier ones, statement
+account codes as printed, no tenant names; `generated` is the date in the file name, `Combined Reports_YYYYMMDD...`),
+then `php maint/rent_oconee_clarke.php <file>` previews and `--post` writes, after the user's OK. The script checks
+the math, maps properties to classes and statement codes to accounts with generic payees (Plumbing, Maintenance...;
+the contractor goes in the memo), and skips what's already in QuickBooks. A new property or code stops it: add it to
+`PROPERTY_CLASSES` / `ACCOUNT_CODES`. "2505 W. Broad St. #412" is the 412 Rivers Edge class. Prepaid rent the manager
+holds isn't entered (user's choice: it's minor). Tenants often pay late in bunches, so a property may show no rent for
+months.
 
 ## Shared library
 

@@ -1,0 +1,40 @@
+{
+    "_about": "Assumptions for the Big Z cash flow forecast (bin/cash-forecast/build.php). Amounts in dollars, money out negative. Items: day of month (1-31 or \"last\"; a weekend or bank holiday moves to the next business day), optional months [1-12] for quarterly or annual items, from/until (YYYY-MM-DD), or date for a one-time item (\"done\": true once paid some way QuickBooks won't show). estimate: a guess to confirm. match_within: how far the recorded amount may differ (a share of the amount) when the payee, memo or other account shares a word with the name or matches match_name.",
+    "months_ahead": 6,
+    "minimum_balance": 5000,
+    "cash_accounts": ["First American Bank & Trust", "The Farmers Bank Business Savings"],
+    "balance_overrides": {
+        "_about": "The bank's balance at the end of as_of, used instead of QuickBooks' for an account whose QuickBooks entries are behind. What QuickBooks records after as_of is added. Remove it once QuickBooks has caught up.",
+        "First American Bank & Trust": {"as_of": null, "amount": null, "note": "QuickBooks shows -$312,985: most 2026 activity isn't entered yet. Needs today's balance from the bank."}
+    },
+    "bank_holidays": ["2026-11-11", "2026-11-26", "2026-12-25", "2027-01-01", "2027-01-18", "2027-02-15", "2027-05-31", "2027-06-18", "2027-07-05"],
+    "items": [
+        {"name": "Rent Oconee Clarke remittance", "property": "Managed by Rent Oconee Clarke", "category": "Rent", "day": 15, "amount": 14000, "estimate": true, "match_name": "/Rent Oconee/i", "match_within": 0.9,
+            "note": "Rent less management fees and repairs, paid when the statement is made a few days after the period ends on the 14th (Oct 19, Nov 13). Oct 2026 $13,797, Nov $15,799 (with the Deni and Tuxedo houses); Aug $6,600 and Sep $2,800 were turnover months. Tenants often pay late in bunches, so months vary."},
+        {"name": "Daly Realty remittance", "property": "1605 Grand Ave", "category": "Rent", "day": 15, "amount": 1790, "estimate": true, "match_name": "/Daly/i", "match_within": 0.9,
+            "note": "Rent $1,950 less 8% management fee."},
+        {"name": "NFCU mortgage - 460 Barnett Shoals", "property": "460 Barnett Shoals Rd", "category": "Mortgages", "day": 1, "amount": -885.89, "match_name": "/NFCU|Navy|Barnett/i"},
+        {"name": "NFCU mortgage - 2699 Durby", "property": "2699 Durby Cir", "category": "Mortgages", "day": 1, "amount": -655.72, "match_name": "/NFCU|Navy|Durby/i"},
+        {"name": "Mr. Cooper mortgage - 2734 Fizer", "property": "2734 Fizer Rd", "category": "Mortgages", "day": 7, "amount": -799.81, "match_name": "/Cooper|Fizer/i"},
+        {"name": "FABT loan - 412 Rivers Edge", "property": "412 Rivers Edge", "category": "Mortgages", "day": 20, "amount": -477.01, "match_name": "/Rivers Edge/i"},
+        {"name": "Commercial Bank loan *6527 - 1020 Deni Ct", "property": "1020 Deni Ct", "category": "Mortgages", "day": 1, "amount": -2430, "estimate": true, "match_name": "/Commercial|Deni/i", "match_within": 0.2,
+            "note": "No payments in QuickBooks. Guess: $365,000 over 30 years at 7%."},
+        {"name": "Commercial Bank loan *6524 - 1020 Tuxedo", "property": "1020 Tuxedo Ln", "category": "Mortgages", "day": 1, "amount": -1200, "estimate": true, "match_name": "/Commercial|Tuxedo/i", "match_within": 0.2,
+            "note": "No payments in QuickBooks. Guess: $180,000 over 30 years at 7%."},
+        {"name": "FABT line of credit interest", "category": "Lines of credit", "day": 20, "amount": -620, "estimate": true, "match_name": "/FABT Line|Line of Credit/i", "match_within": 0.25,
+            "note": "Balance $109,373; interest was $615-$620 a month from Nov 2025 to Jan 2026."},
+        {"name": "Farmers Bank line of credit interest", "category": "Lines of credit", "day": 28, "amount": -3100, "estimate": true, "match_name": "/Farmers/i", "match_within": 0.3,
+            "note": "Balance $497,721. No 2026 payments in QuickBooks. Guess: 7.5% a year."},
+        {"name": "Rivers Edge HOA", "property": "412 Rivers Edge", "category": "HOA dues", "day": 1, "amount": -215.50, "match_name": "/Rivers Edge HOA/i", "match_within": 0.6},
+        {"name": "Retreat South HOA (3 units)", "property": "Lakeside Dr", "category": "HOA dues", "day": 6, "amount": -469.50, "match_name": "/Retreat South/i", "match_within": 0.7,
+            "note": "$156.50 for each of 2050, 2060 and 2070 Lakeside Dr, paid as three payments."},
+        {"name": "Stones Creek HOA", "property": "Stones Creek", "category": "HOA dues", "day": 6, "amount": -249, "match_name": "/Stones Creek/i", "estimate": true,
+            "note": "Which property is this? Paid monthly through Dec 2025."},
+        {"name": "Athens-Clarke County property tax", "category": "Property tax", "date": "2026-11-16", "amount": -21400, "estimate": true, "match_name": "/Athens|Clarke County/i", "match_within": 0.3,
+            "note": "Paid $21,412.51 on 2025-10-20. Not in QuickBooks for 2026 yet; the deadline is usually Nov 15."},
+        {"name": "Foremost insurance", "property": "1605 Grand Ave", "category": "Insurance", "day": 18, "months": [4], "amount": -1206, "estimate": true, "match_name": "/Foremost/i", "match_within": 0.3,
+            "note": "Paid $1,206 on 2025-04-18."},
+        {"name": "Tennessee franchise & excise tax", "category": "Taxes & licenses", "day": 7, "months": [2], "amount": -310, "estimate": true, "match_name": "/Tennessee/i", "match_within": 0.5},
+        {"name": "Georgia annual registration", "category": "Taxes & licenses", "day": 6, "months": [2], "amount": -15, "match_name": "/Georgia/i", "match_within": 5}
+    ]
+}

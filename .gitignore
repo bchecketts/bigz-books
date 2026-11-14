@@ -1,3 +1,7 @@
 vendor/
 tmp/
 *.swp
+.claude/settings.local.json
+www/finance/cash-flow-forecast/page.html
+www/finance/cash-flow-forecast/data.json
+www/finance/cash-flow-forecast/archive/

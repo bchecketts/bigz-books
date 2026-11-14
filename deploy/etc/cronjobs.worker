@@ -1,0 +1,9 @@
+## Cron jobs for Big Z (~/bigz/bigz). Install (as root):
+##
+## sudo cp /home/ubuntu/bigz/bigz/deploy/etc/cronjobs.worker /etc/cron.d/books-bigz
+## sudo chown root:root /etc/cron.d/books-bigz
+## sudo chmod 640 /etc/cron.d/books-bigz
+
+# Rebuild the cash flow forecast (www/finance/cash-flow-forecast/) at 11:00 and 20:00 UTC (6-7am and 3-4pm Eastern).
+# Read-only. Big Z's QuickBooks is updated a few times a month, so twice a day is plenty; run it by hand after a change.
+0 11,20 * * * ubuntu /usr/bin/php /home/ubuntu/bigz/bigz/bin/cash-forecast/build.php >> /home/ubuntu/bigz/applogs/cash_forecast.log 2>&1

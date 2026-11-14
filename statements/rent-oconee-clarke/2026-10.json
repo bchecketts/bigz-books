@@ -1,0 +1,106 @@
+{
+    "_about": "Rent Oconee Clarke owner statement, transcribed from the PDF (uploads/Combined Reports_20261019121510234.pdf). Lines: [date, statement account code, amount, comment]. Tenant names left out.",
+    "period": ["2026-09-15", "2026-10-14"],
+    "generated": "2026-10-19",
+    "properties": {
+        "146 Johnson Dr.": {
+            "income": [["2026-09-16", "4101", 33.00], ["2026-10-01", "4101", 533.00], ["2026-10-01", "4101", 533.00], ["2026-10-05", "4101", 534.00]],
+            "expenses": [["2026-10-14", "5000", 130.64, "Management fee"]],
+            "net": 1502.36, "paid_to_owner": 1502.36
+        },
+        "152 Johnson Dr.": {
+            "income": [["2026-10-01", "4101", 1350.00]],
+            "expenses": [["2026-10-14", "5000", 108.00, "Management fee"]],
+            "net": 1242.00, "paid_to_owner": 1242.00
+        },
+        "460 Barnett Shoals Rd. E-1": {
+            "income": [["2026-10-01", "4101", 600.00], ["2026-10-09", "4110", 60.00], ["2026-10-09", "4101", 600.00]],
+            "expenses": [
+                ["2026-09-28", "5125", 25.00, "Air filter change 6/24/26 (J30976)"],
+                ["2026-09-29", "5125", 25.00, "Air filter change 9/16/26 (J30981)"],
+                ["2026-10-14", "5000", 100.80, "Management fee"]
+            ],
+            "net": 1109.20, "paid_to_owner": 1109.20
+        },
+        "1020 Deni Court": {
+            "income": [["2026-10-05", "4101", 1400.00]],
+            "expenses": [
+                ["2026-10-07", "5033", 205.00, "Guillermo Monroy: Invoice 896089 9/11/26 and 9/25/26"],
+                ["2026-10-14", "5000", 112.00, "Management fee"]
+            ],
+            "net": 1083.00, "paid_to_owner": 0
+        },
+        "1020 Tuxedo Lane": {
+            "income": [["2026-09-18", "4103", 700.00], ["2026-09-18", "4101", 725.81], ["2026-10-01", "4101", 925.00], ["2026-10-01", "4102", 925.00]],
+            "expenses": [
+                ["2026-09-22", "5105", 100.00, "Majestic Sparkle Cleaning Service, LLC: Invoice 064-touchup"],
+                ["2026-10-07", "5033", 130.00, "Guillermo Monroy: Invoice 896087 9/4/26 and 9/18/26"],
+                ["2026-10-09", "5402", 15.09, "Oconee County Water Resources: acct. 71990 8/10/26-9/20/26 Final bill"],
+                ["2026-10-09", "5404", 102.05, "Walton EMC: 8/19/26-9/21/26 final bill"],
+                ["2026-10-14", "5000", 132.06, "Management fee"],
+                ["2026-10-14", "5000-leasing", 925.00, "Leasing fee for the new lease (half of the $1,850 rent); the statement shows it in the $1,057.06 management fee"]
+            ],
+            "net": 1871.61, "paid_to_owner": 1033.28
+        },
+        "1022 Deni Court": {
+            "income": [["2026-10-03", "4101", 600.00]],
+            "expenses": [["2026-10-14", "5000", 48.00, "Management fee"]],
+            "net": 552.00, "paid_to_owner": 552.00
+        },
+        "1024 Deni Court": {
+            "income": [["2026-10-01", "4101", 1400.00]],
+            "expenses": [["2026-10-14", "5000", 112.00, "Management fee"]],
+            "net": 1288.00, "paid_to_owner": 1288.00
+        },
+        "1026 Deni Court": {
+            "income": [["2026-10-02", "4101", 1200.00]],
+            "expenses": [
+                ["2026-10-08", "5108", 1650.00, "Chris Dawson Plumbing, LLC: Invoice 2205 New 40gal electric water heater"],
+                ["2026-10-09", "5402", 30.43, "Piedmont Water Company: Acct. 1385652 8/22/26-9/8/26"],
+                ["2026-10-09", "5109", 792.58, "Hampton Management Enterprises LLC: Invoice 58159 Removed grout from shower pan. Grouted and sealed."],
+                ["2026-10-09", "5404", 25.38, "Walton EMC: 8/23/26-9/4/26 Final bill"],
+                ["2026-10-09", "5109", 241.00, "Royston Handyman LLC: Invoice 762 Vent fan"],
+                ["2026-10-14", "5000", 96.00, "Management fee"]
+            ],
+            "net": -1635.39, "paid_to_owner": 0
+        },
+        "2050 Lakeside Dr.": {
+            "income": [["2026-10-01", "4101", 712.50], ["2026-10-01", "4101", 712.50], ["2026-10-01", "4101", 712.50], ["2026-10-01", "4101", 712.50]],
+            "expenses": [
+                ["2026-09-28", "5125", 35.00, "Air filter change 5/28/26 (J30974)"],
+                ["2026-09-29", "5125", 35.00, "Air filter change 9/11/26 (J30980)"],
+                ["2026-10-07", "5120", 105.00, "ServiceMax: Invoice 163230 Washer not getting cold water."],
+                ["2026-10-07", "5120", 202.00, "ServiceMax: Invoice 163229 Bad thermal unit in electric dryer."],
+                ["2026-10-14", "5000", 228.00, "Management fee"]
+            ],
+            "net": 2245.00, "paid_to_owner": 2245.00
+        },
+        "2060 Lakeside Drive": {
+            "income": [],
+            "expenses": [
+                ["2026-09-28", "5125", 35.00, "Air filter change 5/28/26 (J30974)"],
+                ["2026-09-29", "5125", 35.00, "Air filter change 9/11/26 (J30980)"],
+                ["2026-10-09", "5404", 215.94, "Georgia Power Company: 7/13/26-9/15/26"]
+            ],
+            "net": -285.94, "paid_to_owner": 0
+        },
+        "2070 Lakeside Drive": {
+            "income": [["2026-10-01", "4101", 712.50], ["2026-10-01", "4101", 712.50], ["2026-10-05", "4110", 71.25], ["2026-10-05", "4101", 712.50], ["2026-10-05", "4101", 712.50]],
+            "expenses": [
+                ["2026-09-22", "5201", 250.00, "Appliances 4 Less-Athens: Dryer replacement"],
+                ["2026-09-28", "5125", 35.00, "Air filter change 5/28/26 (J30974)"],
+                ["2026-09-29", "5125", 35.00, "Air filter change 9/11/26 (J30980)"],
+                ["2026-10-14", "5000", 233.70, "Management fee"]
+            ],
+            "net": 2367.55, "paid_to_owner": 2367.55
+        },
+        "2505 W. Broad St. #412": {
+            "income": [
+                ["2026-09-15", "4123", 129.00], ["2026-09-15", "4110", 150.00], ["2026-09-15", "4101", 381.25], ["2026-09-15", "4101", 1039.75],
+                ["2026-10-05", "4101", 60.25], ["2026-10-05", "4110", 150.00], ["2026-10-05", "4101", 889.75], ["2026-10-14", "4123", -129.00]
+            ],
+            "expenses": [["2026-10-14", "5000", 213.68, "Management fee"]],
+            "net": 2457.32, "paid_to_owner": 2457.32
+        }
+    }
+}

@@ -42,6 +42,8 @@ function sizeText($bytes)
 <body>
 <h1>Big Z Properties</h1>
 
+<p><a href="finance/cash-flow-forecast/">Cash flow forecast</a></p>
+
 <h2>Upload files</h2>
 <label id="drop">
   <p><strong>Drop files here</strong> or click to choose</p>

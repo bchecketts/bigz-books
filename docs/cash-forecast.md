@@ -1,6 +1,9 @@
-# Cash flow forecast: how to build one for Big Z (not built yet)
+# Cash flow forecast for Big Z
 
-The user wants a daily cash flow forecast for Big Z on bigz.roundsphere.com, like the one built for the
+Built 2026-11-07: https://bigz.roundsphere.com/finance/cash-flow-forecast/. How it works now is under "Big Z's
+forecast" at the end; the rest is the design it was based on.
+
+The user wanted a daily cash flow forecast for Big Z on bigz.roundsphere.com, like the one built for the
 RoundSphere companies (https://bk.roundsphere.com/finance/cash-flow-forecast/). These notes describe that
 forecast's design, so it can be rebuilt here, and what changes for rental property.
 
@@ -52,4 +55,20 @@ companies, amounts or assumptions: Big Z gets its own copies of whatever is reus
 - A cron entry in `deploy/etc/cronjobs.worker` (Big Z's own file, copied to /etc/cron.d/books-bigz).
 - The site is already behind the Basic auth login (see CLAUDE.md), so the page needs no other protection.
 
-Start by asking the user for each property's rent, mortgage and escrow, and the usual timing of each.
+## Big Z's forecast
+
+- `bin/cash-forecast/build.php` reads QuickBooks (`cashforecast::snapshot()`, read-only; kept in
+  `../var/cash-forecast-snapshot.json` for `--cached` re-runs) and writes `www/finance/cash-flow-forecast/` (page.html,
+  data.json, archive/; not in git). The committed `index.php` there serves page.html with its age.
+- Cash is the accounts in `cash_accounts`. The property managers' holding accounts and the mortgage escrows aren't
+  cash: the managers' money arrives as their monthly remittance, an item like any other.
+- **QuickBooks is behind.** 2025 is fully booked, but in 2026 the First American account mostly stopped being
+  entered after January, so its QuickBooks balance is wrong. `balance_overrides` takes the bank's balance for an
+  account (at the end of `as_of`); what QuickBooks records after that day is added. Planned items between `as_of`
+  and today that aren't in QuickBooks are counted today, so the override should be recent. The page warns about
+  an account with nothing recorded in 30 days.
+- Matching to what's recorded works as in the RoundSphere forecast; the text matched also includes the other
+  account of a transfer (remittances are transfers from the managers' holding accounts with no payee).
+- The first assumptions (2026-11-07) come from the 2025-2026 bank history; items marked `estimate` are guesses for
+  the user to confirm (the Commercial Bank loans and the Farmers LOC have no payments recorded).
+- Cron: `deploy/etc/cronjobs.worker` (11:00 and 20:00 UTC), to be installed as /etc/cron.d/books-bigz (see the file).
