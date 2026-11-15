@@ -77,7 +77,7 @@ const UTILITY_PAYEES = [
 const GENERIC_UTILITY_PAYEES = ['5402' => 'Water Company', '5404' => 'Electric Company'];
 
 const HOLDING_ACCOUNT = 'Rent Oconee Clarke (Holding Account)';
-const OWNER_ACCOUNT = 'First American Bank & Trust';
+const OWNER_ACCOUNT = 'First American Bank & Trust xx0207';
 
 $file = $argv[1] ?? '';
 $statement = is_file($file) ? json_decode((string) file_get_contents($file), true) : null;
