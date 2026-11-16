@@ -161,7 +161,7 @@ $alreadyRecorded = [];
 foreach ($planned as $plannedIndex => $occurrence) {
     $item = $config['items'][$occurrence['item']];
     $event = ['name' => $item['name'], 'amount' => $occurrence['amount'], 'category' => $item['category'] ?? 'Other',
-        'property' => $item['property'] ?? '', 'estimate' => !empty($item['estimate'])];
+        'property' => $item['property'] ?? '', 'split' => $item['split'] ?? null, 'estimate' => !empty($item['estimate'])];
     if (isset($matched[$plannedIndex])) {
         $alreadyRecorded[] = $event + ['planned' => $occurrence['day'], 'recorded' => $matched[$plannedIndex]];
         continue;
@@ -331,12 +331,20 @@ for ($month = substr($today, 0, 7); $month <= substr($through, 0, 7); $month = d
 }
 $monthly .= '</table></div>';
 
-// By property: what each item adds up to through the end, grouped by property
+// By property: what each item adds up to through the end, grouped by property. An item with a split (one payment for
+// several properties, like the Rent Oconee Clarke payout) is shared over them by its weights.
 $byProperty = [];
 foreach ($events as $dayEvents) {
     foreach ($dayEvents as $event) {
-        $property = $event['property'] ?: 'Company-wide';
-        $byProperty[$property][$event['amount'] < 0 ? 'out' : 'in'] = ($byProperty[$property][$event['amount'] < 0 ? 'out' : 'in'] ?? 0) + $event['amount'];
+        $shares = !empty($event['split']) ? $event['split'] : [($event['property'] ?: 'Company-wide') => 1];
+        $weightTotal = array_sum($shares) ?: 1;
+        $soFar = 0;
+        foreach ($shares as $property => $weight) {
+            $part = $property === array_key_last($shares) ? $event['amount'] - $soFar : (int) round($event['amount'] * $weight / $weightTotal);
+            $soFar += $part;
+            $side = $part < 0 ? 'out' : 'in';
+            $byProperty[$property][$side] = ($byProperty[$property][$side] ?? 0) + $part;
+        }
     }
 }
 ksort($byProperty);
@@ -398,7 +406,7 @@ $page = function ($heading, $archiveLink) use ($h, $style, $takenAt, $through, $
         .'Assumptions in <code>app/cash-forecast.json</code>'.($estimates ? "; {$estimates} of them are estimates to confirm (marked est.)" : '').'. <a href="/">Home</a></p>'
         .$problemList.$summary.$svg.$overdueList
         .'<h2>By month</h2>'.$monthly
-        .'<h2>By property</h2><p class="sub">Through '.date('M j, Y', strtotime($through)).'. Rent Oconee Clarke sends one payment for the properties it manages.</p>'.$propertyTable
+        .'<h2>By property</h2><p class="sub">Through '.date('M j, Y', strtotime($through)).'. Payments that cover several properties (the Rent Oconee Clarke payout, shared taxes and HOA dues, the Schwab line) are shared out by the weights in the assumptions.</p>'.$propertyTable
         .'<h2>Every day</h2>'.$daily
         .$recordedList
         .'<h2>Assumptions</h2>'.$assumptions
