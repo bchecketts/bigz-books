@@ -43,6 +43,7 @@ function sizeText($bytes)
 <h1>Big Z Properties</h1>
 
 <p><a href="cash-flow/">Cash flow forecast</a></p>
+<p><a href="/oauth2callback?logout=https%3A%2F%2Fbigz.roundsphere.com%2F">Sign out</a></p>
 
 <h2>Upload files</h2>
 <label id="drop">

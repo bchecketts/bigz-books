@@ -17,6 +17,12 @@ cd "$REPO_ROOT"
 # spaces/newlines in paths are safe.
 mapfile -d '' -t STAGED < <(git diff --cached --name-only --diff-filter=ACMR -z)
 
+# Never commit the Google sign-in secrets (they live in ~/bigz/conf/oidc.conf, outside the repo)
+if git diff --cached -U0 -- . ':(exclude).githooks' | grep -qE '^\+.*(GOCSPX-|[0-9]+-[a-z0-9]+\.apps\.googleusercontent\.com)'; then
+    echo "pre-commit: a staged change contains a Google OAuth client ID or secret; keep them in ~/bigz/conf/oidc.conf" >&2
+    exit 1
+fi
+
 PHP_TOUCHED=0
 for f in "${STAGED[@]:-}"; do
     case "$f" in
