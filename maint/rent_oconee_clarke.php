@@ -40,6 +40,15 @@ const PROPERTY_CLASSES = [
     '2505 W. Broad St. #412'     => '412 Rivers Edge',
 ];
 
+// Building-wide costs the statement puts on one unit, split over the building's units by rent (CLAUDE.md: the Deni Ct
+// 4-plex). [statement property => [codes, [class => monthly rent]]]
+const SHARED_COSTS = [
+    '1020 Deni Court' => [['5033'], [
+        '1020-1026 Deni Ct:1020 Deni Ct.' => 1400, '1020-1026 Deni Ct:1022 Deni Ct' => 600,
+        '1020-1026 Deni Ct:1024 Deni Ct' => 1400, '1020-1026 Deni Ct:1026 Deni Ct' => 1200,
+    ]],
+];
+
 // The statement's account codes: [QuickBooks account, payee]. Payees are generic on purpose (a new contractor needs no
 // new vendor); the comment names the contractor. A null payee is worked out from the comment (utilities).
 const ACCOUNT_CODES = [
@@ -181,17 +190,31 @@ foreach ($statement['properties'] as $property => $lines) {
             }
         }
         $payee = $payee ?? GENERIC_UTILITY_PAYEES[$code] ?? null;
-        $record = ['TxnDate' => $date, 'PaymentType' => 'Cash', 'AccountRef' => ['value' => $holdingId], 'PrivateNote' => "{$comment} {$tag}",
-            'Line' => [['Amount' => $cents($amount) / 100, 'DetailType' => 'AccountBasedExpenseLineDetail', 'AccountBasedExpenseLineDetail' => [
-                'ClassRef' => $classRef, 'AccountRef' => ['value' => $need($accounts, $account, 'account')]]]]];
+        $accountRef = ['value' => $need($accounts, $account, 'account')];
+        $shares = [$class => 1];
+        $entryClass = $class;
+        if (in_array($code, SHARED_COSTS[$property][0] ?? [])) {
+            $shares = SHARED_COSTS[$property][1];
+            $entryClass = '';
+        }
+        $expenseLines = [];
+        $soFar = 0;
+        $sharesTotal = max(1, array_sum($shares));
+        foreach ($shares as $shareClass => $share) {
+            $part = $shareClass == array_key_last($shares) ? $cents($amount) - $soFar : (int) round($cents($amount) * $share / $sharesTotal);
+            $soFar += $part;
+            $expenseLines[] = ['Amount' => $part / 100, 'DetailType' => 'AccountBasedExpenseLineDetail', 'AccountBasedExpenseLineDetail' => [
+                'ClassRef' => ['value' => $need($classes, $shareClass, 'class')], 'AccountRef' => $accountRef]];
+        }
+        $record = ['TxnDate' => $date, 'PaymentType' => 'Cash', 'AccountRef' => ['value' => $holdingId], 'PrivateNote' => "{$comment} {$tag}", 'Line' => $expenseLines];
         if ($payee) {
             $record['EntityRef'] = ['value' => $vendors[$payee] ?? "new vendor {$payee}", 'type' => 'Vendor'];
             if (!isset($vendors[$payee])) {
                 $newVendors[$payee] = true;
             }
         }
-        $entries[] = ['type' => 'Purchase', 'class' => $class, 'date' => $date, 'amount' => $cents($amount),
-            'what' => "{$account} / ".($payee ?? '(no payee)').": {$comment}", 'record' => $record];
+        $entries[] = ['type' => 'Purchase', 'class' => $entryClass, 'date' => $date, 'amount' => $cents($amount),
+            'what' => "{$account} / ".($payee ?? '(no payee)').": {$comment}".(count($shares) > 1 ? ' (split by rent)' : ''), 'record' => $record];
     }
 }
 // The payout
