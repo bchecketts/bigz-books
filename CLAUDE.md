@@ -114,6 +114,13 @@ bump the pin here.
 - PHP, RoundBase style (see `~/develop/justsign/CLAUDE.md`): lowercase static helper classes in
   `app/classes/*.class.php`, top-to-bottom scripts in `bin/cronjobs/` and `maint/`.
 - Descriptive variable names (`$property`, not `$p`). Money is integer cents until written to QuickBooks.
+- Classes (one per property) go on income and expense lines only, never on balance-sheet lines (bank, loans,
+  escrow, fixed assets, equity): property detail there comes from per-property accounts. Older entries have classes on
+  loan and asset lines; the user chose to leave them (2026-11-16) since balance sheet by class isn't used.
+- Property sale: take the property's book cost (not the sale price) off its fixed asset account, net the selling costs
+  (commissions, seller credits, closing fees) against the gain, and put the gain in Realized Capital Gains (like
+  #2742, 132 Rivers Edge). 1031 deferral is the accountant's, on the return. 1449 Eisenhower (2025) was booked with the
+  price and the costs as expenses; the gain was moved (#4585), the costs left since the 2025 return is filed.
 - Never write to QuickBooks without the user's OK. One-off writes go in
   `maint/oneoff/YYYY-MM-DD-what.php` (previews unless `--post`; first comment records the outcome
   and QuickBooks Ids); read-only lookups go in `tmp/` (not in git). See `maint/oneoff/README.md`.
