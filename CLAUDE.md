@@ -72,9 +72,11 @@ contain `=`.
 ## Website: bigz.roundsphere.com
 
 DocumentRoot `www/`, vhost `deploy/etc/httpd.conf` (symlinked as sites-available/bigz.conf). Behind the shared
-AWS ALB, which terminates TLS with the *.roundsphere.com certificate. Every page needs a login (Apache Basic auth,
-`../conf/htpasswd`, separate from the RoundSphere logins): pages here show Big Z data. Add a user with
-`htpasswd -B ~/bigz/conf/htpasswd <name>`. Only GET/HEAD are allowed, plus POST to `upload.php`. `deploy/etc/apache2-systemd-override.conf`
+AWS ALB, which terminates TLS with the *.roundsphere.com certificate. Every page needs a Google sign-in on the allow-list (mod_auth_openidc, since 2026-11-16): pages here show Big Z
+data. Allowed accounts are the `Require claim email:` lines in the vhost (edit, `sudo apache2ctl configtest`, then
+`sudo systemctl reload apache2`); the client ID/secret and session key are in `../conf/oidc.conf` (not in git, mode
+600; a pre-commit check blocks OAuth secrets). Sign out: `/oauth2callback?logout=...` (linked on the home page);
+signed-in accounts not on the list land on `/not-authorized.html`, the one public page. Only GET/HEAD are allowed, plus POST to `upload.php`. `deploy/etc/apache2-systemd-override.conf`
 (symlinked as apache2.service.d/bigz.conf) lets Apache write `../logs`, `../uploads`, `../var` and `../applogs`.
 
 Uploader (`www/index.php`, `upload.js`, `upload.php`, `app/classes/uploads.class.php`): drop one or more files on
