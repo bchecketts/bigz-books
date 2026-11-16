@@ -29,11 +29,11 @@ const PROPERTY_CLASSES = [
     '146 Johnson Dr.'            => '146 Johnson Dr',
     '152 Johnson Dr.'            => '152 Johnson Dr',
     '460 Barnett Shoals Rd. E-1' => '460 Barnett Shoals Rd',
-    '1020 Deni Court'            => '1020 Deni Ct.',
+    '1020 Deni Court'            => '1020-1026 Deni Ct:1020 Deni Ct.',
     '1020 Tuxedo Lane'           => '1020 Tuxedo Ln.',
-    '1022 Deni Court'            => '1022 Deni Ct',
-    '1024 Deni Court'            => '1024 Deni Ct',
-    '1026 Deni Court'            => '1026 Deni Ct',
+    '1022 Deni Court'            => '1020-1026 Deni Ct:1022 Deni Ct',
+    '1024 Deni Court'            => '1020-1026 Deni Ct:1024 Deni Ct',
+    '1026 Deni Court'            => '1020-1026 Deni Ct:1026 Deni Ct',
     '2050 Lakeside Dr.'          => '2050 Lakeside Dr',
     '2060 Lakeside Drive'        => '2060 Lakeside Dr',
     '2070 Lakeside Drive'        => '2070 Lakeside Dr',
@@ -132,6 +132,7 @@ $byName = function ($type, $nameField) use ($qbo) {
 };
 $accounts = $byName('Account', 'FullyQualifiedName');
 $classes = $byName('Class', 'FullyQualifiedName');
+$classNames = array_flip($classes);
 $vendors = $byName('Vendor', 'DisplayName');
 $customers = $byName('Customer', 'DisplayName');
 $need = fn ($list, $name, $what) => $list[$name] ?? throw new RuntimeException("no {$what} \"{$name}\" in QuickBooks");
@@ -214,7 +215,9 @@ foreach (['Deposit', 'Purchase', 'Transfer'] as $type) {
         if ($record['TxnDate'] < $periodStart && !str_contains($record['PrivateNote'] ?? '', $tag)) {
             continue;
         }
-        $lineClasses = array_unique(array_filter(array_map(fn ($line) => ($line['DepositLineDetail'] ?? $line['AccountBasedExpenseLineDetail'] ?? [])['ClassRef']['name'] ?? null, $record['Line'] ?? [])));
+        // By class Id: a line's ClassRef name is the short name, not the full "Parent:Child" one the entries use
+        $lineClassIds = array_unique(array_filter(array_map(fn ($line) => ($line['DepositLineDetail'] ?? $line['AccountBasedExpenseLineDetail'] ?? [])['ClassRef']['value'] ?? null, $record['Line'] ?? [])));
+        $lineClasses = array_map(fn ($classId) => $classNames[$classId] ?? $classId, $lineClassIds);
         $existing[] = ['type' => $type, 'id' => $record['Id'], 'date' => $record['TxnDate'], 'amount' => $cents($record['TotalAmt'] ?? $record['Amount']),
             'class' => count($lineClasses) == 1 ? reset($lineClasses) : ''];
     }
