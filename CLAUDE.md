@@ -120,7 +120,8 @@ bump the pin here.
   escrow, fixed assets, equity): property detail there comes from per-property accounts. Older entries have classes on
   loan and asset lines; the user chose to leave them (2026-11-16) since balance sheet by class isn't used.
 - 1020-1026 Deni Ct is one 4-plex (one loan, one insurance policy), class "1020-1026 Deni Ct" with the four units as
-  sub-classes ("1020-1026 Deni Ct:1022 Deni Ct"...). Shared costs are split over the four unit classes,
+  sub-classes ("1020-1026 Deni Ct:1022 Deni Ct"...). Building-wide costs (interest, Bank Charges & Fees, Insurance,
+  Property Tax, Taxes & Licenses) are split over the four unit classes,
   interest by rent (1020 $1,400, 1022 $600, 1024 $1,400, 1026 $1,200 as of Nov 2026).
 - Property sale: take the property's book cost (not the sale price) off its fixed asset account, net the selling costs
   (commissions, seller credits, closing fees) against the gain, and put the gain in Realized Capital Gains (like
