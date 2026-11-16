@@ -1,7 +1,7 @@
 {
     "_about": "Assumptions for the Big Z cash flow forecast (bin/cash-forecast/build.php). Amounts in dollars, money out negative. Items: day of month (1-31 or \"last\"; a weekend or bank holiday moves to the next business day), optional months [1-12] for quarterly or annual items, from/until (YYYY-MM-DD), or date for a one-time item (\"done\": true once paid some way QuickBooks won't show). estimate: a guess to confirm. split: {property: weight} to share the item over properties in the By property table only. match_within: how far the recorded amount may differ (a share of the amount) when the payee, memo or other account shares a word with the name or matches match_name.",
     "months_ahead": 6,
-    "minimum_balance": 5000,
+    "minimum_balance": 10000,
     "cash_accounts": ["First American Bank & Trust xx0207"],
     "balance_overrides": {
         "_about": "The bank's balance at the end of as_of, used instead of QuickBooks' for an account whose QuickBooks entries are behind. What QuickBooks records after as_of is added. Remove it once QuickBooks has caught up."
