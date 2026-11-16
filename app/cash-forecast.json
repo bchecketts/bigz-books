@@ -1,12 +1,13 @@
 {
-    "_about": "Assumptions for the Big Z cash flow forecast (bin/cash-forecast/build.php). Amounts in dollars, money out negative. Items: day of month (1-31 or \"last\"; a weekend or bank holiday moves to the next business day), optional months [1-12] for quarterly or annual items, from/until (YYYY-MM-DD), or date for a one-time item (\"done\": true once paid some way QuickBooks won't show). estimate: a guess to confirm. split: {property: weight} to share the item over properties in the By property table only. match_within: how far the recorded amount may differ (a share of the amount) when the payee, memo or other account shares a word with the name or matches match_name.",
-    "months_ahead": 6,
+    "_about": "Assumptions for the Big Z cash flow forecast (bin/cash-forecast/build.php). Amounts in dollars, money out negative. months_ahead: forecast through the end of the month that many months after this one; months_back: months of actual balances shown before today (up to 6). Items: day of month (1-31 or \"last\"; a weekend or bank holiday moves to the next business day), optional months [1-12] for quarterly or annual items, from/until (YYYY-MM-DD), or date for a one-time item (\"done\": true once paid some way QuickBooks won't show). estimate: a guess to confirm. split: {property: weight} to share the item over properties in the By property table only. match_within: how far the recorded amount may differ (a share of the amount) when the payee, memo or other account shares a word with the name or matches match_name.",
+    "months_ahead": 12,
+    "months_back": 3,
     "minimum_balance": 10000,
     "cash_accounts": ["First American Bank & Trust xx0207"],
     "balance_overrides": {
         "_about": "The bank's balance at the end of as_of, used instead of QuickBooks' for an account whose QuickBooks entries are behind. What QuickBooks records after as_of is added. Remove it once QuickBooks has caught up."
     },
-    "bank_holidays": ["2026-11-11", "2026-11-26", "2026-12-25", "2027-01-01", "2027-01-18", "2027-02-15", "2027-05-31", "2027-06-18", "2027-07-05"],
+    "bank_holidays": ["2026-11-11", "2026-11-26", "2026-12-25", "2027-01-01", "2027-01-18", "2027-02-15", "2027-05-31", "2027-06-18", "2027-07-05", "2027-09-06", "2027-10-11", "2027-11-11", "2027-11-25"],
     "items": [
         {"name": "Rent Oconee Clarke remittance", "property": "Managed by Rent Oconee Clarke", "split": {"2070 Lakeside Dr": 15.0, "2050 Lakeside Dr": 14.9, "460 Barnett Shoals Rd": 11.8, "1020 Tuxedo Ln": 11.1, "146 Johnson Dr": 8.4, "412 Rivers Edge": 7.7, "1020-1026 Deni Ct": 24.0, "152 Johnson Dr": 7.0, "2060 Lakeside Dr": 0}, "category": "Rent", "day": 15, "amount": 14000, "estimate": true, "match_name": "/Rent Oconee/i", "match_within": 0.9, "until": "2027-01-31",
             "note": "split: each property's share of the Oct-Nov 2026 statements (rent less management fees; 2060 was vacant). Rent less management fees and repairs, paid when the statement is made a few days after the period ends on the 14th (Oct 19, Nov 13). Oct 2026 $13,797, Nov $15,799 (with the Deni and Tuxedo houses); Aug $6,600 and Sep $2,800 were turnover months. Tenants often pay late in bunches, so months vary."},

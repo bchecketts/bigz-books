@@ -86,7 +86,7 @@ www-data, mode 644, so ubuntu can read them. After adding a class, run `composer
 
 ## Cash flow forecast
 
-bigz.roundsphere.com/cash-flow/ (the old /finance/cash-flow-forecast/ redirects there): daily cash through the end of the month `months_ahead` (6) after this
+bigz.roundsphere.com/cash-flow/ (the old /finance/cash-flow-forecast/ redirects there): daily cash through the end of the month `months_ahead` (12) after this
 one. `php bin/cash-forecast/build.php` (cron, `deploy/etc/cronjobs.worker`) reads QuickBooks (read-only) and writes the
 page; the assumptions (recurring rent remittances, mortgages, HOA dues, taxes, one-time items, and bank balances to use
 where QuickBooks is behind) are in `app/cash-forecast.json`. When the user reports a change, edit the JSON and rebuild

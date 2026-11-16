@@ -210,11 +210,13 @@ foreach ($days as $day) {
     }
 }
 
-// Actuals: the cash accounts' end-of-day balances in QuickBooks for the last 6 months. An account with a bank balance in
-// balance_overrides counts only from that day (QuickBooks' balance before it isn't right), moved to the bank's figure.
+// Actuals: the cash accounts' end-of-day balances in QuickBooks for the last months_back months (the snapshot has 6). An
+// account with a bank balance in balance_overrides counts only from that day (QuickBooks' balance before it isn't right),
+// moved to the bank's figure.
+$actualsFrom = date('Y-m-d', strtotime($today.' -'.min(6, (int) ($config['months_back'] ?? 6)).' months'));
 $actuals = [];
 foreach (array_keys($snapshot['history'][array_key_first($snapshot['balances']) ?? ''] ?? []) as $day) {
-    if ($day >= $today) {
+    if ($day >= $today || $day < $actualsFrom) {
         continue;
     }
     $total = 0;
