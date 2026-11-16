@@ -27,7 +27,8 @@ as a possible QuickBooks replacement.
 ├── conf/oidc.conf            # Google sign-in client ID/secret and session key for bigz.roundsphere.com (not in git)
 ├── applogs/                  # script logs, qbo-errors.log
 ├── logs/                     # Apache logs for bigz.roundsphere.com
-├── uploads/                  # files uploaded through bigz.roundsphere.com (not in git)
+├── uploads/                  # files uploaded through bigz.roundsphere.com, until processed (not in git)
+├── documents/                # processed uploads filed by source, with an index (not in git; README.md)
 └── bigz/                     # this repo
     ├── app/                  # common.php, project.properties, classes/
     ├── bin/cash-forecast/    # build.php: the cash flow forecast
@@ -97,7 +98,8 @@ where QuickBooks is behind) are in `app/cash-forecast.json`. When the user repor
 ## Monthly: Rent Oconee Clarke statement
 
 Rent Oconee Clarke (property manager for most properties) sends an owner statement each month for the period from the
-15th to the 14th; the user uploads it through the site. Read the PDF from `../uploads`, transcribe it into
+15th to the 14th; the user uploads it through the site. Read the PDF from `../uploads` (then file it in
+`../documents/rent-oconee-clarke/YYYY-MM-statement-YYYYMMDD.pdf`), transcribe it into
 `statements/rent-oconee-clarke/YYYY-MM.json` (the month the period ends; same shape as the earlier ones, statement
 account codes as printed, no tenant names; `generated` is the date in the file name, `Combined Reports_YYYYMMDD...`),
 then `php maint/rent_oconee_clarke.php <file>` previews and `--post` writes, after the user's OK. The script checks
