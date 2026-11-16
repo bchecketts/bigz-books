@@ -29,6 +29,7 @@ companies, amounts or assumptions: Big Z gets its own copies of whatever is reus
   days: up to 5 days early or 10 days late, the same amount within $1, or within 1% when the names share a word.
   A matched item isn't counted again, and the page lists the matches. (QuickBooks' API can't see the bank feed's
   For Review items, so a payment the bank has but QuickBooks doesn't is still counted as planned.)
+- **Reserves** (`"reserve": true`): monthly allowances for costs that arrive in many small amounts (maintenance). Never matched to QuickBooks; a passed one just drops off (what was spent is already in the balance).
 - **The page** is a chart of `months_back` (3) months of actual balances plus the forecast through `months_ahead` (12), a daily table
   of balance and events, the low point, the overdue items and the matches. It's a static page served through a
   small `index.php` that adds "Updated N minutes ago". Each day's page and data are archived in `archive/YYYY-MM-DD/`.

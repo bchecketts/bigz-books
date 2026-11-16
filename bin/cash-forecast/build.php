@@ -122,7 +122,8 @@ $words = fn ($text) => array_diff(array_unique(preg_split('/[^a-z0-9]+/', strtol
 $candidates = [];
 foreach ($planned as $plannedIndex => $occurrence) {
     $item = $config['items'][$occurrence['item']];
-    if ($occurrence['day'] < $plusDays($today, '-24') || $occurrence['day'] > $plusDays($today, '+7') || $occurrence['amount'] == 0) {
+    $outsideWindow = $occurrence['day'] < $plusDays($today, '-24') || $occurrence['day'] > $plusDays($today, '+7');
+    if (!empty($item['reserve']) || $outsideWindow || $occurrence['amount'] == 0) {
         continue;
     }
     $nameWords = array_filter($words($item['name']), fn ($word) => strlen($word) >= 3 && !preg_match('/^\d+$/', $word));
@@ -170,7 +171,9 @@ foreach ($planned as $plannedIndex => $occurrence) {
         if ($occurrence['day'] <= $through) {
             $events[$occurrence['day']][] = $event;
         }
-    } elseif (($occurrence['one_time'] && empty($item['done'])) || $occurrence['day'] > $overdueFrom) {
+    } elseif (empty($item['reserve']) && (($occurrence['one_time'] && empty($item['done'])) || $occurrence['day'] > $overdueFrom)) {
+        // A reserve (an allowance for costs that come in many small amounts) never shows up as such in QuickBooks: once its
+        // day has passed, what was actually spent is in the balance, so it isn't counted again as overdue
         $events[$todayOrNext][] = ['name' => "{$item['name']} (expected ".date('M j', strtotime($occurrence['day'])).')'] + $event;
         $overdue[] = $event + ['expected' => $occurrence['day']];
     }
