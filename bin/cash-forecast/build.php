@@ -11,7 +11,7 @@
  *     QuickBooks (paid or collected on their due date)
  *   - a planned item already recorded in QuickBooks (in the opening balance) isn't counted again
  *
- * Writes www/finance/cash-flow-forecast/ (page.html and data.json, served by the committed index.php behind the site's
+ * Writes www/cash-flow/ (page.html and data.json, served by the committed index.php behind the site's
  * login; a copy of each day's in archive/YYYY-MM-DD/). Run each morning from cron, and by hand after changing the
  * assumptions:
  *   php bin/cash-forecast/build.php [--cached]   (--cached: reuse the last QuickBooks snapshot instead of a new one)
@@ -25,7 +25,7 @@ if (!$config) {
     fwrite(STDERR, "app/cash-forecast.json isn't valid JSON\n");
     exit(1);
 }
-$outputDir = "{$root}/www/finance/cash-flow-forecast";
+$outputDir = "{$root}/www/cash-flow";
 $today = gmdate('Y-m-d');
 $through = date('Y-m-t', strtotime(substr($today, 0, 7).'-01 +'.(int) ($config['months_ahead'] ?? 6).' months'));
 $config['through'] = $through;

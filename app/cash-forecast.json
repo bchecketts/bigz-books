@@ -38,6 +38,8 @@
         {"name": "Athens-Clarke County property tax (4 properties)", "category": "Property tax", "day": 20, "months": [10], "amount": -24786.89, "estimate": true, "match_name": "/Athens|Clarke County|Tax Commissioner/i", "match_within": 0.3,
             "note": "Check 8223, $24,786.89, cleared 2026-10-20 ($21,412.51 on 2025-10-20). Oconee County (Deni, Tuxedo) not included."},        {"name": "Foremost insurance", "property": "1605 Grand Ave", "category": "Insurance", "day": 18, "months": [4], "amount": -1206, "estimate": true, "match_name": "/Foremost/i", "match_within": 0.3,
             "note": "Paid $1,206 on 2025-04-18."},
+        {"name": "Oconee County property tax - Deni Ct and Tuxedo", "category": "Property tax", "day": 15, "months": [12], "amount": -5340, "estimate": true, "match_name": "/Oconee/i", "match_within": 0.4,
+            "note": "Not escrowed by The Commercial Bank. Estimate from the Apr 2026 closings' prorated 2026 tax (Deni $986.96 and Tuxedo $548.08 for Jan 1 - Apr 15, about $3,430 + $1,905 a year). Confirm the bill and due date."},
         {"name": "Auto-Owners insurance - 1020 Deni Ct", "property": "1020 Deni Ct", "category": "Insurance", "day": 17, "months": [4], "amount": -3511.99, "estimate": true, "match_name": "/Auto-Owners|Auto Owners/i", "match_within": 0.3,
             "note": "Paid 2026-04-17 from Wells Fargo, reimbursed from First American. Renewal assumed a year later."},
         {"name": "Auto-Owners insurance - 1020 Tuxedo Ln", "property": "1020 Tuxedo Ln", "category": "Insurance", "day": 17, "months": [4], "amount": -885.26, "estimate": true, "match_name": "/Auto-Owners|Auto Owners/i", "match_within": 0.3,

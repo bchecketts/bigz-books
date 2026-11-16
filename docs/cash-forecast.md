@@ -1,6 +1,6 @@
 # Cash flow forecast for Big Z
 
-Built 2026-11-07: https://bigz.roundsphere.com/finance/cash-flow-forecast/. How it works now is under "Big Z's
+Built 2026-11-07: https://bigz.roundsphere.com/cash-flow/ (moved from /finance/cash-flow-forecast/ 2026-11-16). How it works now is under "Big Z's
 forecast" at the end; the rest is the design it was based on.
 
 The user wanted a daily cash flow forecast for Big Z on bigz.roundsphere.com, like the one built for the
@@ -8,7 +8,7 @@ RoundSphere companies (https://bk.roundsphere.com/finance/cash-flow-forecast/). 
 forecast's design, so it can be rebuilt here, and what changes for rental property.
 
 **Copy the code's ideas, never its data.** The RoundSphere forecast is in `~/books/bookkeeping/bookkeeping`
-(`bin/cash-forecast/`, `app/cash-forecast.json`, `www/finance/cash-flow-forecast/page.html`, and the "Cash flow
+(`bin/cash-forecast/`, `app/cash-forecast.json`, `www/cash-flow/page.html`, and the "Cash flow
 forecast" section of its CLAUDE.md). Read it for patterns. Don't link to it, include it, or carry over any of its
 companies, amounts or assumptions: Big Z gets its own copies of whatever is reused.
 
@@ -50,7 +50,7 @@ companies, amounts or assumptions: Big Z gets its own copies of whatever is reus
 ## Suggested layout
 
 - `bin/cash-forecast/snapshot.php`: QuickBooks numbers (`app::qbo()`).
-- `bin/cash-forecast/build.php`: writes `www/finance/cash-flow-forecast/` (page.html, data.json, archive/).
+- `bin/cash-forecast/build.php`: writes `www/cash-flow/` (page.html, data.json, archive/).
 - `app/cash-forecast.json`: the assumptions.
 - A cron entry in `deploy/etc/cronjobs.worker` (Big Z's own file, copied to /etc/cron.d/books-bigz).
 - The site is already behind the Basic auth login (see CLAUDE.md), so the page needs no other protection.
@@ -58,7 +58,7 @@ companies, amounts or assumptions: Big Z gets its own copies of whatever is reus
 ## Big Z's forecast
 
 - `bin/cash-forecast/build.php` reads QuickBooks (`cashforecast::snapshot()`, read-only; kept in
-  `../var/cash-forecast-snapshot.json` for `--cached` re-runs) and writes `www/finance/cash-flow-forecast/` (page.html,
+  `../var/cash-forecast-snapshot.json` for `--cached` re-runs) and writes `www/cash-flow/` (page.html,
   data.json, archive/; not in git). The committed `index.php` there serves page.html with its age.
 - Cash is the accounts in `cash_accounts`. The property managers' holding accounts and the mortgage escrows aren't
   cash: the managers' money arrives as their monthly remittance, an item like any other.
