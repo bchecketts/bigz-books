@@ -77,13 +77,17 @@ AWS ALB, which terminates TLS with the *.roundsphere.com certificate. Every page
 data. Allowed accounts are the `Require claim email:` lines in the vhost (edit, `sudo apache2ctl configtest`, then
 `sudo systemctl reload apache2`); the client ID/secret and session key are in `../conf/oidc.conf` (not in git, mode
 600; a pre-commit check blocks OAuth secrets). Sign out: `/oauth2callback?logout=...` (linked on the home page);
-signed-in accounts not on the list land on `/not-authorized.html`, the one public page. Only GET/HEAD are allowed, plus POST to `upload.php`. `deploy/etc/apache2-systemd-override.conf`
+signed-in accounts not on the list land on `/not-authorized.html`, the one public page. Only GET/HEAD are allowed, plus POST to `/upload/save.php`. `deploy/etc/apache2-systemd-override.conf`
 (symlinked as apache2.service.d/bigz.conf) lets Apache write `../logs`, `../uploads`, `../var` and `../applogs`.
 
-Uploader (`www/index.php`, `upload.js`, `upload.php`, `app/classes/uploads.class.php`): drop one or more files on
-the home page; each goes up in its own request (up to 100 MB, set in the vhost) and is saved to `../uploads` (outside
+Pages share a header and stylesheet (`app/classes/site.class.php`, `www/site.css`, light and dark). Home (`/`): each
+rental's rent and whether it's paid, from `../var/rent-status.json`, built by `bin/properties/build.php` (cron, with the
+forecast) from QuickBooks and the rent list in `app/properties.json` (update it when a lease or rent changes).
+
+Uploader (`/upload/`: `www/upload/index.php`, `upload.js`, `save.php`, `app/classes/uploads.class.php`): drop one or
+more files on the page; each goes up in its own request (up to 100 MB, set in the vhost) and is saved to `../uploads` (outside
 the web root, so nothing uploaded is ever served or run) under a cleaned name, never overwriting (`name (2).pdf`).
-`upload.php` only accepts requests whose Origin is bigz.roundsphere.com (the browser would send the Basic auth login
+`save.php` only accepts requests whose Origin is bigz.roundsphere.com (the browser would send the Basic auth login
 with a POST from any site). Each upload is logged in `../applogs/app.log` with the login name. Files are owned by
 www-data, mode 644, so ubuntu can read them. After adding a class, run `composer dump-autoload`.
 

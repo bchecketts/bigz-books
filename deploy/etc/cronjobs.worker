@@ -4,6 +4,6 @@
 ## sudo chown root:root /etc/cron.d/books-bigz
 ## sudo chmod 640 /etc/cron.d/books-bigz
 
-# Rebuild the cash flow forecast (www/cash-flow/) at 11:00 and 20:00 UTC (6-7am and 3-4pm Eastern).
+# Rebuild the cash flow forecast (www/cash-flow/) and the home page's rent status (../var/rent-status.json) at 11:00 and 20:00 UTC (6-7am and 3-4pm Eastern).
 # Read-only. Big Z's QuickBooks is updated a few times a month, so twice a day is plenty; run it by hand after a change.
-0 11,20 * * * ubuntu /usr/bin/php /home/ubuntu/bigz/bigz/bin/cash-forecast/build.php >> /home/ubuntu/bigz/applogs/cash_forecast.log 2>&1
+0 11,20 * * * ubuntu /usr/bin/php /home/ubuntu/bigz/bigz/bin/cash-forecast/build.php >> /home/ubuntu/bigz/applogs/cash_forecast.log 2>&1; /usr/bin/php /home/ubuntu/bigz/bigz/bin/properties/build.php >> /home/ubuntu/bigz/applogs/rent_status.log 2>&1

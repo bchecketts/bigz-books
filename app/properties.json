@@ -1,0 +1,27 @@
+{
+    "_about": "Big Z's rentals for the home page's rent status (bin/properties/build.php). class: the QuickBooks class (full name); manager: whose holding account the rent arrives in (Direct: straight to First American); rent: monthly rent when let, 0 while vacant (asking: the rent being asked). Update when a lease changes.",
+    "managers": {
+        "Rent Oconee Clarke": "Rent Oconee Clarke (Holding Account)",
+        "MidSouth Best Rentals": "MidSouth Best Rentals Holding Account",
+        "Daly Realty": "Daly Realty (Holding Account)",
+        "Direct": "First American Bank & Trust xx0207"
+    },
+    "properties": [
+        {"name": "146 Johnson Dr", "class": "146 Johnson Dr", "manager": "Rent Oconee Clarke", "rent": 1600, "note": "3 rooms"},
+        {"name": "148 Johnson Dr", "class": "148 Johnson Dr", "manager": "Direct", "rent": 2350, "note": "Samary & Co"},
+        {"name": "152 Johnson Dr", "class": "152 Johnson Dr", "manager": "Rent Oconee Clarke", "rent": 1350},
+        {"name": "460 Barnett Shoals Rd E-1", "class": "460 Barnett Shoals Rd", "manager": "Rent Oconee Clarke", "rent": 1850, "note": "by the room"},
+        {"name": "1020 Deni Ct", "class": "1020-1026 Deni Ct:1020 Deni Ct.", "manager": "Rent Oconee Clarke", "rent": 1400},
+        {"name": "1022 Deni Ct", "class": "1020-1026 Deni Ct:1022 Deni Ct", "manager": "Rent Oconee Clarke", "rent": 600},
+        {"name": "1024 Deni Ct", "class": "1020-1026 Deni Ct:1024 Deni Ct", "manager": "Rent Oconee Clarke", "rent": 1400},
+        {"name": "1026 Deni Ct", "class": "1020-1026 Deni Ct:1026 Deni Ct", "manager": "Rent Oconee Clarke", "rent": 1200},
+        {"name": "1020 Tuxedo Ln", "class": "1020 Tuxedo Ln.", "manager": "Rent Oconee Clarke", "rent": 1850},
+        {"name": "2050 Lakeside Dr", "class": "2050 Lakeside Dr", "manager": "Rent Oconee Clarke", "rent": 2850, "note": "4 rooms"},
+        {"name": "2060 Lakeside Dr", "class": "2060 Lakeside Dr", "manager": "Rent Oconee Clarke", "rent": 0, "asking": 2600},
+        {"name": "2070 Lakeside Dr", "class": "2070 Lakeside Dr", "manager": "Rent Oconee Clarke", "rent": 2850, "note": "4 rooms"},
+        {"name": "412 Rivers Edge (2505 W Broad #412)", "class": "412 Rivers Edge", "manager": "Rent Oconee Clarke", "rent": 1550},
+        {"name": "1605 Grand Ave", "class": "1605 Grand Ave", "manager": "Daly Realty", "rent": 1950},
+        {"name": "2699 Durby Cir", "class": "2699 Durby", "manager": "MidSouth Best Rentals", "rent": 895},
+        {"name": "2734 Fizer Rd", "class": "2734 Fizer Rd", "manager": "MidSouth Best Rentals", "rent": 1225}
+    ]
+}

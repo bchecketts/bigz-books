@@ -1,66 +1,73 @@
 <?php
 
+// Home: Big Z's rentals, their rent and whether it's been paid (../var/rent-status.json, built by
+// bin/properties/build.php from QuickBooks with the cash flow forecast).
+
 require_once __DIR__.'/../app/common.php';
 
-$maxSize = ini_get('upload_max_filesize');
+$statusFile = dirname(__DIR__, 2).'/var/rent-status.json';
+$status = is_file($statusFile) ? json_decode((string) file_get_contents($statusFile), true) : null;
+$money = fn (int $cents) => '$'.number_format($cents / 100, 0);
+$h = fn ($text) => htmlspecialchars((string) $text);
 
-function sizeText($bytes)
-{
-    foreach (['bytes', 'KB', 'MB', 'GB'] as $unit) {
-        if ($bytes < 1024 || $unit === 'GB') {
-            return ($unit === 'bytes' ? $bytes : number_format($bytes, 1))." {$unit}";
+$intro = '';
+$rows = '';
+$totalRent = 0;
+if ($status) {
+    $through = [];
+    foreach ($status['managers'] as $manager => $info) {
+        $label = $manager === 'Direct' ? 'paid directly' : $manager;
+        $date = $info['data_through'] && $manager !== 'Direct' ? ' (through '.date('M j', strtotime($info['data_through'])).')' : '';
+        $through[] = $h($label).' '.date('M Y', strtotime($info['month'].'-01')).$date;
+    }
+    $intro = 'Rent collected as recorded in QuickBooks, for each manager\'s latest month: '.implode(' · ', $through)
+        .'. Updated '.date('M j, g:ia', strtotime($status['built_at'])).'.';
+    foreach ($status['properties'] as $property) {
+        $totalRent += $property['rent'];
+        $three = $property['three_months'];
+        $short = $three['due'] - $three['paid'];
+        $month = ' <span class="muted">'.date('M', strtotime($property['month'].'-01')).'</span>';
+        if ($property['status'] === 'vacant') {
+            $cell = '<span class="warn">Vacant</span>'.($property['asking'] ? ' <span class="muted">asking '.$money($property['asking']).'</span>' : '');
+        } elseif ($property['status'] === 'paid') {
+            $cell = '<span class="ok">Paid</span>'.$month;
+        } elseif ($property['status'] === 'partial') {
+            $cell = '<span class="bad">Behind</span>'.$month.' <span class="muted">'.$money($property['paid']).' of '.$money($property['rent']).'</span>';
+        } else {
+            $cell = '<span class="bad">Not paid</span>'.$month;
         }
-        $bytes /= 1024;
+        $threeCell = '';
+        if ($property['rent']) {
+            $threeCell = $money($three['paid']).' of '.$money($three['due']).($short > 0 ? ' <span class="bad">('.$money($short).' short)</span>' : '');
+        }
+        $rows .= '<tr><td>'.$h($property['name']).($property['note'] ? ' <span class="muted">'.$h($property['note']).'</span>' : '').'</td>'
+            .'<td>'.$h($property['manager'] === 'Direct' ? 'Paid directly' : $property['manager']).'</td>'
+            .'<td class="n">'.($property['rent'] ? $money($property['rent']) : '').'</td>'
+            .'<td class="status">'.$cell.'</td><td class="n">'.$threeCell.'</td></tr>';
     }
 }
 
 ?><!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Big Z Properties</title>
-<style>
-  :root { --text: #222; --muted: #666; --line: #ddd; --accent: #2a6db0; --bg: #fff; --drop: #f4f8fc; --ok: #2b7a3d; --bad: #b3261e; }
-  @media (prefers-color-scheme: dark) {
-    :root { --text: #e6e6e6; --muted: #9a9a9a; --line: #444; --accent: #6ea8e0; --bg: #1b1b1b; --drop: #222b35; --ok: #6cc47f; --bad: #f08a80; }
-  }
-  body { font-family: system-ui, sans-serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; color: var(--text); background: var(--bg); }
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.1rem; margin-top: 2rem; }
-  #drop { display: block; border: 2px dashed var(--line); border-radius: 8px; padding: 2.5rem 1rem; text-align: center; background: var(--drop); cursor: pointer; }
-  #drop.over { border-color: var(--accent); }
-  #drop p { margin: .3rem 0; }
-  .muted { color: var(--muted); font-size: .9rem; }
-  ul { list-style: none; padding: 0; }
-  li { display: flex; justify-content: space-between; gap: 1rem; padding: .4rem 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
-  .ok { color: var(--ok); }
-  .bad { color: var(--bad); }
-  progress { width: 6rem; }
-</style>
+<head><?= site::head('Big Z Properties') ?>
+<style>.status { white-space: nowrap; }</style>
 </head>
 <body>
-<h1>Big Z Properties</h1>
-
-<p><a href="cash-flow/">Cash flow forecast</a></p>
-<p><a href="/oauth2callback?logout=https%3A%2F%2Fbigz.roundsphere.com%2F">Sign out</a></p>
-
-<h2>Upload files</h2>
-<label id="drop">
-  <p><strong>Drop files here</strong> or click to choose</p>
-  <p class="muted">Up to <?= htmlspecialchars($maxSize) ?> each</p>
-  <input type="file" id="picker" multiple hidden>
-</label>
-<ul id="progress"></ul>
-
-<h2>Recent uploads</h2>
-<ul>
-<?php foreach (uploads::recent() as $file) { ?>
-  <li><span><?= htmlspecialchars($file['name']) ?></span>
-      <span class="muted"><?= sizeText($file['size']) ?> · <?= (new DateTime('@'.$file['time']))->setTimezone(new DateTimeZone('America/New_York'))->format('M j, g:ia') ?></span></li>
-<?php } ?>
-</ul>
-
-<script src="upload.js"></script>
+<?= site::header('/') ?>
+<main>
+<h1>Properties</h1>
+<?php if (!$status) : ?>
+<p>Rent status hasn't been built yet: run <code>php bin/properties/build.php</code>.</p>
+<?php else : ?>
+<p class="muted"><?= $intro ?></p>
+<div class="table-wrap"><table class="list">
+<tr><th>Property</th><th>Managed by</th><th class="n">Rent</th><th>This month</th><th class="n">Last 3 months</th></tr>
+    <?= $rows ?>
+<tfoot><tr><td colspan="2">Total monthly rent (let units)</td><td class="n"><?= $money($totalRent) ?></td><td colspan="2"></td></tr></tfoot>
+</table></div>
+<p class="muted">"Last 3 months" compares what came in with three months' rent, so a late payment that caught up shows as
+paid there. Rents are set in <code>app/properties.json</code>.</p>
+<?php endif; ?>
+</main>
 </body>
 </html>

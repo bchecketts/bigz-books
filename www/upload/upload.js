@@ -1,4 +1,4 @@
-// Uploads each dropped or chosen file to upload.php in its own request, with a progress bar per file
+// Uploads each dropped or chosen file to save.php in its own request, with a progress bar per file
 const drop = document.getElementById('drop');
 const picker = document.getElementById('picker');
 const progressList = document.getElementById('progress');
@@ -34,7 +34,7 @@ function uploadOne(file) {
     const form = new FormData();
     form.append('files[]', file);
     const request = new XMLHttpRequest();
-    request.open('POST', 'upload.php');
+    request.open('POST', 'save.php');
     request.upload.addEventListener('progress', event => {
       if (event.lengthComputable) bar.value = event.loaded / event.total;
     });

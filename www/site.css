@@ -1,0 +1,42 @@
+/* Shared styles for bigz.roundsphere.com (pages, header). Light and dark colors; every text color is set, including
+   links, so nothing falls back to the browser's dark defaults on a dark background. */
+:root {
+  --text: #1f2328; --muted: #59636e; --line: #d8dee4; --bg: #fff; --tile: #f6f8fa; --accent: #0969da;
+  --ok: #1a7f37; --bad: #cf222e; --warn: #9a6700; --header: #f6f8fa;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e6edf3; --muted: #9da7b3; --line: #30363d; --bg: #0d1117; --tile: #161b22; --accent: #58a6ff;
+    --ok: #3fb950; --bad: #ff7b72; --warn: #d29922; --header: #161b22;
+  }
+}
+html { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; color: var(--text); background: var(--bg); margin: 0; }
+a { color: var(--accent); }
+a:visited { color: var(--accent); }
+main { max-width: 68rem; margin: 1.5rem auto; padding: 0 16px; }
+h1 { font-size: 1.5rem; margin: 0 0 .3rem; }
+h2 { font-size: 1.1rem; margin-top: 2rem; }
+.muted { color: var(--muted); font-size: .9rem; }
+.ok { color: var(--ok); }
+.bad { color: var(--bad); }
+.warn { color: var(--warn); }
+
+/* Header */
+.site-header { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; padding: .6rem 16px;
+  background: var(--header); border-bottom: 1px solid var(--line); font-size: .95rem; }
+.site-header a { text-decoration: none; }
+.site-header .site-name { font-weight: 600; color: var(--text); }
+.site-header nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+.site-header nav a { color: var(--muted); padding: .15rem 0; }
+.site-header nav a:hover, .site-header nav a.current { color: var(--text); }
+.site-header nav a.current { border-bottom: 2px solid var(--accent); }
+.site-header .site-user { margin-left: auto; color: var(--muted); font-size: .85rem; }
+
+/* Tables */
+table.list { border-collapse: collapse; width: 100%; font-size: .92rem; }
+table.list th, table.list td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.list th { color: var(--muted); font-weight: 600; }
+table.list .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.list tfoot td { font-weight: 600; border-bottom: none; }
+.table-wrap { overflow-x: auto; }

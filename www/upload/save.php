@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Receives files from the uploader on index.php (one or more per request, field "files[]") and saves them
- * to uploads_dir. Apache allows POST only here, and only after the Basic auth login. Answers in JSON.
+ * Receives files from the uploader (upload/index.php) (one or more per request, field "files[]") and saves them
+ * to uploads_dir. Apache allows POST only here (and only after Google sign-in). Answers in JSON.
  */
 
-require_once __DIR__.'/../app/common.php';
+require_once __DIR__.'/../../app/common.php';
 
 header('Content-Type: application/json');
 
