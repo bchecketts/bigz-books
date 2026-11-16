@@ -6,9 +6,9 @@
  * Circle) and Mortgage (2916) (= NFCU Mortgage - 460 Barnett Shoals E1), each with an "Opening Balance from Bank"
  * journal entry against Opening Balance Equity (#4177 $53,422.32, #4178 $22,805.01). The loans were already on the
  * books, so those entries counted them twice. Deletes the two entries and makes the two accounts inactive (the user
- * left the loan feeds disconnected; payments are entered from the First American side).
+ * turned the NFCU feeds off; payments are entered from the First American side).
  *
- * OUTCOME: not run yet.
+ * OUTCOME: run 2026-11-16 after the user turned the NFCU feeds off: #4177 and #4178 deleted; accounts 100 and 101 inactive.
  *
  *   php maint/oneoff/2026-11-15-nfcu-opening-balances.php [--post]
  */

@@ -2,11 +2,9 @@
     "_about": "Assumptions for the Big Z cash flow forecast (bin/cash-forecast/build.php). Amounts in dollars, money out negative. Items: day of month (1-31 or \"last\"; a weekend or bank holiday moves to the next business day), optional months [1-12] for quarterly or annual items, from/until (YYYY-MM-DD), or date for a one-time item (\"done\": true once paid some way QuickBooks won't show). estimate: a guess to confirm. match_within: how far the recorded amount may differ (a share of the amount) when the payee, memo or other account shares a word with the name or matches match_name.",
     "months_ahead": 6,
     "minimum_balance": 5000,
-    "cash_accounts": ["First American Bank & Trust xx0207", "The Farmers Bank Business Savings"],
+    "cash_accounts": ["First American Bank & Trust xx0207"],
     "balance_overrides": {
-        "_about": "The bank's balance at the end of as_of, used instead of QuickBooks' for an account whose QuickBooks entries are behind. What QuickBooks records after as_of is added. Remove it once QuickBooks has caught up.",
-        "First American Bank & Trust xx0207": {"as_of": "2026-11-13", "amount": 24715.33, "note": "Bank CSV (uploads/fabt-AccountTransactionDetail.csv): collected balance $24,855.33 after the Nov 13 Rent Oconee Clarke payout, less the $140 QuickBooks charge pending Nov 13. The Commercial Bank payments pending Nov 16 ($2,523.11, $1,244.28) are in the forecast's items. QuickBooks is missing most of 2026 for this account."},
-        "The Farmers Bank Business Savings": {"as_of": "2026-06-18", "amount": 0, "note": "Closed 2026-06-18 (Farmers statements in uploads/farmers-bankBig Z Statements.pdf). QuickBooks still shows $16,838.19: entries from Sep 2025 on are missing."}
+        "_about": "The bank's balance at the end of as_of, used instead of QuickBooks' for an account whose QuickBooks entries are behind. What QuickBooks records after as_of is added. Remove it once QuickBooks has caught up."
     },
     "bank_holidays": ["2026-11-11", "2026-11-26", "2026-12-25", "2027-01-01", "2027-01-18", "2027-02-15", "2027-05-31", "2027-06-18", "2027-07-05"],
     "items": [
@@ -26,10 +24,12 @@
             "note": "Bank: $2,523.11 to The Commercial Bank on Aug 17, Oct 13, Oct 15 (September's, late) and pending Nov 16."},
         {"name": "Commercial Bank loan *6524 - 1020 Tuxedo", "property": "1020 Tuxedo Ln", "category": "Mortgages", "day": 15, "amount": -1244.28, "match_name": "/Commercial|Tuxedo/i", "match_within": 0.05,
             "note": "Bank: $1,224.28 Aug 17; $1,244.28 Oct 13, Oct 15 (September's, late) and pending Nov 16."},
-        {"name": "Commercial Bank loans - 2050/2060/2070 Lakeside Dr", "property": "Lakeside Dr", "category": "Mortgages", "day": 10, "amount": -4822.29, "estimate": true, "match_name": "/Commercial/i", "match_within": 0.05,
-            "note": "Bank: $1,711.59 + $1,555.35 + $1,555.35 to The Commercial Bank on Aug 11, Sep 10, Oct 28, Nov 9. The three Lakeside loans, refinanced Apr 2026 (proceeds deposited Apr 10, $552,381.53). Not in QuickBooks yet."},
-        {"name": "FABT line of credit interest", "category": "Lines of credit", "day": 20, "amount": -620, "estimate": true, "match_name": "/FABT Line|Line of Credit/i", "match_within": 0.25,
-            "note": "Balance $109,373; interest was $615-$620 a month from Nov 2025 to Jan 2026."},
+        {"name": "Commercial Bank loan *6528 - 2050 Lakeside Dr", "property": "2050 Lakeside Dr", "category": "Mortgages", "day": 10, "amount": -1555.35, "match_name": "/Commercial|Lakeside/i", "match_within": 0.02,
+            "note": "Lakeside refinance, Apr 2026 ($225,000). Paid around the 10th (Aug 11, Sep 10, Oct 28, Nov 9)."},
+        {"name": "Commercial Bank loan *6530 - 2060 Lakeside Dr", "property": "2060 Lakeside Dr", "category": "Mortgages", "day": 10, "amount": -1555.35, "match_name": "/Commercial|Lakeside/i", "match_within": 0.02,
+            "note": "Lakeside refinance, Apr 2026 ($225,000). Paid around the 10th (Aug 11, Sep 10, Oct 28, Nov 9)."},
+        {"name": "Commercial Bank loan *6494 - 2070 Lakeside Dr", "property": "2070 Lakeside Dr", "category": "Mortgages", "day": 10, "amount": -1711.59, "match_name": "/Commercial|Lakeside/i", "match_within": 0.02,
+            "note": "Lakeside refinance, Apr 2026 ($225,000). Paid around the 10th (Aug 11, Sep 10, Oct 28, Nov 9)."},
         {"name": "Rivers Edge HOA", "property": "412 Rivers Edge", "category": "HOA dues", "day": 1, "amount": -215.5, "match_name": "/Rivers Edge HOA/i", "match_within": 0.6},
         {"name": "Retreat South HOA (3 units)", "property": "Lakeside Dr", "category": "HOA dues", "day": 6, "amount": -469.5, "match_name": "/Retreat South/i", "match_within": 0.7,
             "note": "$156.50 for each of 2050, 2060 and 2070 Lakeside Dr, paid as three payments."},

@@ -65,7 +65,9 @@ contain `=`.
   write only the folders in `deploy/etc/apache2-systemd-override.conf` (here).
 - Failed Intuit requests are logged (with `intuit_tid`, never data) to `../applogs/qbo-errors.log`.
 - Intuit's security requirements: `~/books/bookkeeping/bookkeeping/docs/`.
-- `app::qbo(true)` is an Intuit sandbox company (connect with `--sandbox`); test writes there first.
+- `app::qbo(true)` is an Intuit sandbox company (connect with `--sandbox`); test writes there first. Big Z's sandbox
+  isn't connected yet. Once (2026-11-16, account type test) the user allowed MouseDining's sandbox connection
+  (`~/books/mousedining`, Intuit sample data); that was a one-time exception, not a standing permission.
 
 ## Website: bigz.roundsphere.com
 
