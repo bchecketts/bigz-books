@@ -121,8 +121,10 @@ bump the pin here.
   loan and asset lines; the user chose to leave them (2026-11-16) since balance sheet by class isn't used.
 - Property sale: take the property's book cost (not the sale price) off its fixed asset account, net the selling costs
   (commissions, seller credits, closing fees) against the gain, and put the gain in Realized Capital Gains (like
-  #2742, 132 Rivers Edge). 1031 deferral is the accountant's, on the return. 1449 Eisenhower (2025) was booked with the
-  price and the costs as expenses; the gain was moved (#4585), the costs left since the 2025 return is filed.
+  #2742, 132 Rivers Edge). In a 1031 exchange the gain is deferred instead: it lowers the replacement properties' cost
+  (the accountant books the amount at year end, e.g. #4024 for 1449 Eisenhower into 146/148/152 Johnson Dr). Eisenhower
+  (2025) was booked with the price and the costs as expenses; its $244,000 now offsets #4024 in Opening Balance Equity
+  (#4585), the costs left since the 2025 return is filed.
 - Never write to QuickBooks without the user's OK. One-off writes go in
   `maint/oneoff/YYYY-MM-DD-what.php` (previews unless `--post`; first comment records the outcome
   and QuickBooks Ids); read-only lookups go in `tmp/` (not in git). See `maint/oneoff/README.md`.

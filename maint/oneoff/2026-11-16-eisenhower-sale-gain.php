@@ -9,7 +9,8 @@
  * 1449 Eisenhower Ave $244,000, credit Realized Capital Gains $244,000 (no class: balance-sheet lines). The P&L doesn't
  * change; the account ends at $0 and is made inactive.
  *
- * OUTCOME: run 2026-11-16; journal entry #4585; 1449 Eisenhower Ave at $0 and inactive.
+ * OUTCOME: run 2026-11-16; journal entry #4585; 1449 Eisenhower Ave at $0 and inactive. Then corrected the same day
+ * (2026-11-16-eisenhower-1031-fix.php): it was a 1031, so the credit is Opening Balance Equity, not Realized Capital Gains.
  *
  *   php maint/oneoff/2026-11-16-eisenhower-sale-gain.php [--post]
  */
