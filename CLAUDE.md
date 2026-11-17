@@ -111,7 +111,10 @@ the math, maps properties to classes and statement codes to accounts with generi
 the contractor goes in the memo), and skips what's already in QuickBooks. A new property or code stops it: add it to
 `PROPERTY_CLASSES` / `ACCOUNT_CODES`. "2505 W. Broad St. #412" is the 412 Rivers Edge class. Prepaid rent the manager
 holds isn't entered (user's choice: it's minor). Tenants often pay late in bunches, so a property may show no rent for
-months.
+months. The holding account sits at -$387.49 (Nov 2026): Rent Oconee Clarke credited an Aug $550 deposit forfeit
+for 1026 Deni that wasn't on the Sep statement, then reversed it Nov 17 (their ledger in ../documents); they'll deduct
+$387.50 from the December payout, which brings the account back to about $0. Expect the Dec statement's payout to be
+$387.50 below the properties' nets.
 
 ## Shared library
 
