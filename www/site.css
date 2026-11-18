@@ -35,8 +35,8 @@ h2 { font-size: 1.1rem; margin-top: 2rem; }
 
 /* Tables */
 table.list { border-collapse: collapse; width: 100%; font-size: .92rem; }
-table.list th, table.list td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-table.list th { color: var(--muted); font-weight: 600; }
+table.list th, table.list td { text-align: left; padding: .35rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.list th { color: var(--muted); font-weight: 600; font-size: .85rem; line-height: 1.2; vertical-align: bottom; }
 table.list .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 table.list tfoot td { font-weight: 600; border-bottom: none; }
 .table-wrap { overflow-x: auto; }

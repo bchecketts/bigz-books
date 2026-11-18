@@ -48,9 +48,9 @@ $valuesNote = isset($status['values_as_of']) ? 'Values: '.$h($status['values_sou
 (purchase price plus improvements, before depreciation); loans are today's balances, with the Schwab line shared over the
 Johnson Dr houses it financed (59/22/19).</p>
 <div class="table-wrap"><table class="list">
-<tr><th>Property</th><th class="n">Value</th><th class="n">Book value</th><th class="n">Loans</th><th class="n">Equity</th>
-<th class="n">Loan to value</th><th class="n">Rent / year</th><th class="n">Rent / value</th>
-<th class="n">Cap rate (last 12 mo)</th><th class="n">Cap rate (current rent)</th></tr>
+<tr><th>Property</th><th class="n">Value</th><th class="n">Book<br>value</th><th class="n">Loans</th><th class="n">Equity</th>
+<th class="n">Loan to<br>value</th><th class="n">Rent /<br>year</th><th class="n">Rent /<br>value</th>
+<th class="n">Cap rate<br>last 12 mo</th><th class="n">Cap rate<br>current rent</th></tr>
     <?= $portfolioRows ?>
 <tfoot><?= $portfolioTotal ?></tfoot>
 </table></div>

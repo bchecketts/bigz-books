@@ -61,7 +61,7 @@ if ($status) {
 <?php else : ?>
 <p class="muted"><?= $intro ?></p>
 <div class="table-wrap"><table class="list">
-<tr><th>Property</th><th>Managed by</th><th class="n">Rent</th><th>This month</th><th class="n">Last 3 months</th></tr>
+<tr><th>Property</th><th>Managed by</th><th class="n">Rent</th><th>This month</th><th class="n">Last 3<br>months</th></tr>
     <?= $rows ?>
 <tfoot><tr><td colspan="2">Total monthly rent (let units)</td><td class="n"><?= $money($totalRent) ?></td><td colspan="2"></td></tr></tfoot>
 </table></div>
