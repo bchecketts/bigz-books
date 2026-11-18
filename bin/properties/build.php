@@ -6,7 +6,8 @@
  * Income and its sub-accounts other than fees and deposits, by class) for its manager's latest month, and over the last
  * three months. A manager's latest month is that of the newest deposit in its holding account (its statement data is
  * entered in batches), so a property isn't shown behind just because the statement isn't in yet; rent paid straight to
- * First American uses this month (last month until the 6th). Read-only. Writes ../var/rent-status.json.
+ * First American uses this month (last month until the 6th). Also the portfolio: each property's estimated value against
+ * its book value and loans. Read-only. Writes ../var/rent-status.json.
  *
  *   php bin/properties/build.php
  */
@@ -104,7 +105,33 @@ foreach ($config['properties'] as $property) {
     ];
 }
 
-$result = ['built_at' => date('c'), 'managers' => $managers, 'properties' => $properties];
+// Portfolio: estimated value (app/properties.json) against book value (fixed asset accounts: cost plus improvements, no
+// depreciation, which is only on the tax return) and loans (current balances), each account shared where it covers
+// several properties
+$balances = [];
+foreach ($qbo->query("SELECT * FROM Account MAXRESULTS 1000")['Account'] as $account) {
+    $balances[$account['FullyQualifiedName']] = (int) round(abs((float) $account['CurrentBalance']) * 100);
+}
+$rentByUnit = array_column($config['properties'], 'rent', 'name');
+$portfolio = [];
+foreach ($config['portfolio'] ?? [] as $holding) {
+    $sum = function (array $accounts) use ($balances, $holding) {
+        $total = 0;
+        foreach ($accounts as $entry) {
+            if (!isset($balances[$entry['account']])) {
+                fwrite(STDERR, "No account {$entry['account']} for {$holding['name']}\n");
+            }
+            $total += (int) round(($balances[$entry['account']] ?? 0) * $entry['share']);
+        }
+        return $total;
+    };
+    $rent = array_sum(array_map(fn ($unit) => (int) round(($rentByUnit[$unit] ?? 0) * 100), $holding['units']));
+    $portfolio[] = ['name' => $holding['name'], 'value' => (int) round($holding['value'] * 100), 'book' => $sum($holding['assets']),
+        'loans' => $sum($holding['loans']), 'annual_rent' => 12 * $rent];
+}
+
+$result = ['built_at' => date('c'), 'managers' => $managers, 'properties' => $properties,
+    'portfolio' => $portfolio, 'values_as_of' => $config['values_as_of'] ?? null, 'values_source' => $config['values_source'] ?? null];
 file_put_contents("{$outputFile}.tmp", json_encode($result, JSON_PRETTY_PRINT));
 chmod("{$outputFile}.tmp", 0640);
 rename("{$outputFile}.tmp", $outputFile);

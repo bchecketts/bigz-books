@@ -1,5 +1,5 @@
 {
-    "_about": "Big Z's rentals for the home page's rent status (bin/properties/build.php). class: the QuickBooks class (full name); manager: whose holding account the rent arrives in (Direct: straight to First American); rent: monthly rent when let, 0 while vacant (asking: the rent being asked). Update when a lease changes.",
+    "_about": "Big Z's rentals for the home page's rent status (bin/properties/build.php). class: the QuickBooks class (full name); manager: whose holding account the rent arrives in (Direct: straight to First American); rent: monthly rent when let, 0 while vacant (asking: the rent being asked). Update when a lease changes. portfolio: each property's estimated market value (values_as_of, values_source; refresh once or twice a year), the QuickBooks fixed asset account(s) for its book value and the loan account(s) against it, with a share where an account covers several (Lakeside's one asset account; the Schwab line, 59/22/19 over the Johnson Dr houses it financed). units: the rentals above it holds.",
     "managers": {
         "Rent Oconee Clarke": "Rent Oconee Clarke (Holding Account)",
         "MidSouth Best Rentals": "MidSouth Best Rentals Holding Account",
@@ -23,5 +23,22 @@
         {"name": "1605 Grand Ave", "class": "1605 Grand Ave", "manager": "Daly Realty", "rent": 1950},
         {"name": "2699 Durby Cir", "class": "2699 Durby", "manager": "MidSouth Best Rentals", "rent": 895},
         {"name": "2734 Fizer Rd", "class": "2734 Fizer Rd", "manager": "MidSouth Best Rentals", "rent": 1225}
+    ],
+    "values_as_of": "2026-11-18",
+    "values_source": "owner's estimates",
+    "portfolio": [
+        {"name": "460 Barnett Shoals Rd E-1", "value": 266750, "units": ["460 Barnett Shoals Rd E-1"], "assets": [{"account": "420 Barnett Shoals Rd E1", "share": 1}], "loans": [{"account": "NFCU Mortgage - 460 Barnett Shoals E1", "share": 1}]},
+        {"name": "2050 Lakeside Dr", "value": 409370, "units": ["2050 Lakeside Dr"], "assets": [{"account": "2050/2060/2070 Lakeside Dr", "share": 0.3333}], "loans": [{"account": "TCB Loan 2050 Lakeside Dr *6528", "share": 1}]},
+        {"name": "2060 Lakeside Dr", "value": 417830, "units": ["2060 Lakeside Dr"], "assets": [{"account": "2050/2060/2070 Lakeside Dr", "share": 0.3333}], "loans": [{"account": "TCB Loan 2060 Lakeside Dr *6530", "share": 1}]},
+        {"name": "2070 Lakeside Dr", "value": 410498, "units": ["2070 Lakeside Dr"], "assets": [{"account": "2050/2060/2070 Lakeside Dr", "share": 0.3333}], "loans": [{"account": "TCB Loan 2070 Lakeside Dr *6494", "share": 1}]},
+        {"name": "2699 Durby Cir", "value": 72286, "units": ["2699 Durby Cir"], "assets": [{"account": "2699 Durby Cir", "share": 1}], "loans": [{"account": "NFCU Mortgage - 2699 Durby Circle", "share": 1}]},
+        {"name": "412 Rivers Edge (2505 W Broad #412)", "value": 150860, "units": ["412 Rivers Edge (2505 W Broad #412)"], "assets": [{"account": "412 Rivers Edge", "share": 1}], "loans": [{"account": "FABT Loan - 412 Rivers Edge. (xxxxxx8791)", "share": 1}]},
+        {"name": "2734 Fizer Rd", "value": 132258, "units": ["2734 Fizer Rd"], "assets": [{"account": "2734 Fizer Rd", "share": 1}], "loans": [{"account": "Mr. Cooper Loan - 2734 Fizer Rd.", "share": 1}]},
+        {"name": "1605 Grand Ave", "value": 230112, "units": ["1605 Grand Ave"], "assets": [{"account": "1605 Grand Ave", "share": 1}], "loans": []},
+        {"name": "146 Johnson Dr", "value": 195000, "units": ["146 Johnson Dr"], "assets": [{"account": "146 Johnson Dr", "share": 1}], "loans": [{"account": "Schwab Pledged Asset Line", "share": 0.22}]},
+        {"name": "148 Johnson Dr", "value": 535000, "units": ["148 Johnson Dr"], "assets": [{"account": "148 Johnson Dr", "share": 1}], "loans": [{"account": "Schwab Pledged Asset Line", "share": 0.59}]},
+        {"name": "152 Johnson Dr", "value": 180000, "units": ["152 Johnson Dr"], "assets": [{"account": "152 Johnson Dr", "share": 1}], "loans": [{"account": "Schwab Pledged Asset Line", "share": 0.19}]},
+        {"name": "1020-1026 Deni Ct (4-plex)", "value": 620400, "units": ["1020 Deni Ct", "1022 Deni Ct", "1024 Deni Ct", "1026 Deni Ct"], "assets": [{"account": "1020 Deni Court", "share": 1}], "loans": [{"account": "TCB Loan 1020 Deni Ct *6527", "share": 1}]},
+        {"name": "1020 Tuxedo Ln", "value": 314900, "units": ["1020 Tuxedo Ln"], "assets": [{"account": "1020 Tuxedo Lane", "share": 1}], "loans": [{"account": "TCB Loan 1020 Tuxedo Ln *6524", "share": 1}]}
     ]
 }
