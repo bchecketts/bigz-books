@@ -1,5 +1,5 @@
 {
-    "_about": "Big Z's rentals for the home page's rent status (bin/properties/build.php). class: the QuickBooks class (full name); manager: whose holding account the rent arrives in (Direct: straight to First American); rent: monthly rent when let, 0 while vacant (asking: the rent being asked). Update when a lease changes. portfolio: each property's estimated market value (values_as_of, values_source; refresh once or twice a year), the QuickBooks fixed asset account(s) for its book value and the loan account(s) against it, with a share where an account covers several (Lakeside's one asset account; the Schwab line, 59/22/19 over the Johnson Dr houses it financed). units: the rentals above it holds.",
+    "_about": "Big Z's rentals for the home page's rent status (bin/properties/build.php). class: the QuickBooks class (full name); manager: whose holding account the rent arrives in (Direct: straight to First American); rent: monthly rent when let, 0 while vacant (asking: the rent being asked). Update when a lease changes. portfolio: each property's estimated market value (values_as_of, values_source; refresh once or twice a year), the QuickBooks fixed asset account(s) for its book value and the loan account(s) against it, with a share where an account covers several (Lakeside's one asset account; the Schwab line, 59/22/19 over the Johnson Dr houses it financed). units: the rentals above it holds. acquired: when bought, if within the last year (its cap rate is scaled up from the months owned).",
     "managers": {
         "Rent Oconee Clarke": "Rent Oconee Clarke (Holding Account)",
         "MidSouth Best Rentals": "MidSouth Best Rentals Holding Account",
@@ -38,7 +38,7 @@
         {"name": "146 Johnson Dr", "value": 195000, "units": ["146 Johnson Dr"], "assets": [{"account": "146 Johnson Dr", "share": 1}], "loans": [{"account": "Schwab Pledged Asset Line", "share": 0.22}]},
         {"name": "148 Johnson Dr", "value": 535000, "units": ["148 Johnson Dr"], "assets": [{"account": "148 Johnson Dr", "share": 1}], "loans": [{"account": "Schwab Pledged Asset Line", "share": 0.59}]},
         {"name": "152 Johnson Dr", "value": 180000, "units": ["152 Johnson Dr"], "assets": [{"account": "152 Johnson Dr", "share": 1}], "loans": [{"account": "Schwab Pledged Asset Line", "share": 0.19}]},
-        {"name": "1020-1026 Deni Ct (4-plex)", "value": 620400, "units": ["1020 Deni Ct", "1022 Deni Ct", "1024 Deni Ct", "1026 Deni Ct"], "assets": [{"account": "1020 Deni Court", "share": 1}], "loans": [{"account": "TCB Loan 1020 Deni Ct *6527", "share": 1}]},
-        {"name": "1020 Tuxedo Ln", "value": 314900, "units": ["1020 Tuxedo Ln"], "assets": [{"account": "1020 Tuxedo Lane", "share": 1}], "loans": [{"account": "TCB Loan 1020 Tuxedo Ln *6524", "share": 1}]}
+        {"name": "1020-1026 Deni Ct (4-plex)", "acquired": "2026-04-15", "value": 620400, "units": ["1020 Deni Ct", "1022 Deni Ct", "1024 Deni Ct", "1026 Deni Ct"], "assets": [{"account": "1020 Deni Court", "share": 1}], "loans": [{"account": "TCB Loan 1020 Deni Ct *6527", "share": 1}]},
+        {"name": "1020 Tuxedo Ln", "acquired": "2026-04-15", "value": 314900, "units": ["1020 Tuxedo Ln"], "assets": [{"account": "1020 Tuxedo Lane", "share": 1}], "loans": [{"account": "TCB Loan 1020 Tuxedo Ln *6524", "share": 1}]}
     ]
 }

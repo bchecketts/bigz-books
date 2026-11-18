@@ -113,6 +113,61 @@ foreach ($qbo->query("SELECT * FROM Account MAXRESULTS 1000")['Account'] as $acc
     $balances[$account['FullyQualifiedName']] = (int) round(abs((float) $account['CurrentBalance']) * 100);
 }
 $rentByUnit = array_column($config['properties'], 'rent', 'name');
+$askingByUnit = array_column($config['properties'], 'asking', 'name');
+$classByUnit = array_column($config['properties'], 'class', 'name');
+
+// Operating results for the last 12 full months, by class (P&L by class): income, and expenses other than interest
+$periodEnd = date('Y-m-t', strtotime('last day of last month'));
+$periodStart = date('Y-m-01', strtotime(date('Y-m-01', strtotime($periodEnd)).' -11 months'));
+$report = $qbo->get('reports/ProfitAndLoss', ['start_date' => $periodStart, 'end_date' => $periodEnd, 'summarize_column_by' => 'Classes',
+    'accounting_method' => 'Accrual']);
+$columns = array_map(fn ($column) => $column['ColTitle'], $report['Columns']['Column']);
+$results = [];
+$collect = function (array $node) use (&$collect, &$results, $columns) {
+    foreach ($node['Row'] ?? [] as $row) {
+        foreach ([$row['ColData'] ?? null, $row['Summary']['ColData'] ?? null] as $cells) {
+            $label = $cells[0]['value'] ?? '';
+            if (in_array($label, ['Total Income', 'Total Expenses', 'Interest Paid'], true)) {
+                foreach ($cells as $index => $cell) {
+                    if ($index > 0) {
+                        $results[$columns[$index]][$label] = (int) round((float) $cell['value'] * 100);
+                    }
+                }
+            }
+        }
+        if (isset($row['Rows'])) {
+            $collect($row['Rows']);
+        }
+    }
+};
+$collect($report['Rows'] ?? []);
+// Financing costs in the period aren't operating costs (like interest): the loan and title fees and recording taxes of
+// the April 2026 closings (Deni #4020, Tuxedo #4017) and the Lakeside refinance (#4264). Taken out by class.
+$financingFees = [];
+$feeAccounts = [];
+foreach ($qbo->query("SELECT * FROM Account WHERE AccountType = 'Expense' MAXRESULTS 500")['Account'] as $account) {
+    if (in_array($account['FullyQualifiedName'], ['Bank Charges & Fees', 'Taxes & Licenses'], true)) {
+        $feeAccounts[$account['Id']] = true;
+    }
+}
+$classNames = array_flip($classIds);
+foreach ([['journalentry', '4020'], ['journalentry', '4017'], ['deposit', '4264']] as [$type, $id]) {
+    $txn = $qbo->get("{$type}/{$id}")[$type == 'journalentry' ? 'JournalEntry' : 'Deposit'];
+    if ($txn['TxnDate'] < $periodStart || $txn['TxnDate'] > $periodEnd) {
+        continue;
+    }
+    foreach ($txn['Line'] as $line) {
+        $detail = $line['JournalEntryLineDetail'] ?? $line['DepositLineDetail'] ?? null;
+        if (!$detail || !isset($feeAccounts[$detail['AccountRef']['value']]) || !isset($detail['ClassRef'])) {
+            continue;
+        }
+        // A journal entry's debit is a cost; a deposit carries its fees as negative lines
+        $cost = $type == 'journalentry' ? (($detail['PostingType'] == 'Debit' ? 1 : -1) * $line['Amount']) : -$line['Amount'];
+        $parts = explode(':', $classNames[$detail['ClassRef']['value']] ?? '');
+        $short = end($parts);
+        $financingFees[$short] = ($financingFees[$short] ?? 0) + (int) round($cost * 100);
+    }
+}
 $portfolio = [];
 foreach ($config['portfolio'] ?? [] as $holding) {
     $sum = function (array $accounts) use ($balances, $holding) {
@@ -126,12 +181,31 @@ foreach ($config['portfolio'] ?? [] as $holding) {
         return $total;
     };
     $rent = array_sum(array_map(fn ($unit) => (int) round(($rentByUnit[$unit] ?? 0) * 100), $holding['units']));
+    // At current rent, a vacant unit counts at its asking rent
+    $rentOrAsking = array_sum(array_map(fn ($unit) => (int) round((($rentByUnit[$unit] ?? 0) ?: ($askingByUnit[$unit] ?? 0)) * 100), $holding['units']));
+    // The units' own columns (a class's short name: the part after the last colon)
+    $income = 0;
+    $operating = 0;
+    foreach ($holding['units'] as $unit) {
+        $parts = explode(':', $classByUnit[$unit] ?? '');
+        $column = $results[end($parts)] ?? [];
+        $income += $column['Total Income'] ?? 0;
+        $operating += ($column['Total Expenses'] ?? 0) - ($column['Interest Paid'] ?? 0) - ($financingFees[end($parts)] ?? 0);
+    }
+    // Owned for part of the period: scale to a year from the months owned
+    $months = 12;
+    if (!empty($holding['acquired']) && $holding['acquired'] > $periodStart) {
+        $months = max(1, (strtotime($periodEnd) - strtotime($holding['acquired'])) / (30.44 * 86400));
+    }
+    $scale = 12 / $months;
     $portfolio[] = ['name' => $holding['name'], 'value' => (int) round($holding['value'] * 100), 'book' => $sum($holding['assets']),
-        'loans' => $sum($holding['loans']), 'annual_rent' => 12 * $rent];
+        'loans' => $sum($holding['loans']), 'annual_rent' => 12 * $rent,
+        'noi_actual' => (int) round(($income - $operating) * $scale), 'operating_costs' => (int) round($operating * $scale),
+        'noi_current_rent' => 12 * $rentOrAsking - (int) round($operating * $scale), 'months_owned' => round($months, 1)];
 }
 
 $result = ['built_at' => date('c'), 'managers' => $managers, 'properties' => $properties,
-    'portfolio' => $portfolio, 'values_as_of' => $config['values_as_of'] ?? null, 'values_source' => $config['values_source'] ?? null];
+    'portfolio' => $portfolio, 'operating_period' => [$periodStart, $periodEnd], 'values_as_of' => $config['values_as_of'] ?? null, 'values_source' => $config['values_source'] ?? null];
 file_put_contents("{$outputFile}.tmp", json_encode($result, JSON_PRETTY_PRINT));
 chmod("{$outputFile}.tmp", 0640);
 rename("{$outputFile}.tmp", $outputFile);
