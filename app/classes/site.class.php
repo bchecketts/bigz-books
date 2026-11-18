@@ -7,7 +7,7 @@
 class site
 {
     public const SIGN_OUT = '/oauth2callback?logout=https%3A%2F%2Fbigz.roundsphere.com%2F';
-    public const PAGES = ['/' => 'Properties', '/cash-flow/' => 'Cash flow', '/upload/' => 'Upload'];
+    public const PAGES = ['/' => 'Properties', '/portfolio/' => 'Portfolio', '/cash-flow/' => 'Cash flow', '/upload/' => 'Upload'];
 
     /** The <head> contents every page shares */
     public static function head(string $title): string

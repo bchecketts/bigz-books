@@ -82,7 +82,9 @@ signed-in accounts not on the list land on `/not-authorized.html`, the one publi
 
 Pages share a header and stylesheet (`app/classes/site.class.php`, `www/site.css`, light and dark). Home (`/`): each
 rental's rent and whether it's paid, from `../var/rent-status.json`, built by `bin/properties/build.php` (cron, with the
-forecast) from QuickBooks and the rent list in `app/properties.json` (update it when a lease or rent changes).
+forecast) from QuickBooks and the rent list in `app/properties.json` (update it when a lease or rent changes). Portfolio
+(`/portfolio/`): each property's estimated value (also in `app/properties.json`, refresh once or twice a year) against
+its book value and loans, from the same file.
 
 Uploader (`/upload/`: `www/upload/index.php`, `upload.js`, `save.php`, `app/classes/uploads.class.php`): drop one or
 more files on the page; each goes up in its own request (up to 100 MB, set in the vhost) and is saved to `../uploads` (outside
